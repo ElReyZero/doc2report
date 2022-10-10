@@ -42,4 +42,4 @@ def delete_document(request, pk):
         document = Document.objects.get(id=pk)
         if request.user.id == document.user.id:
             document.delete()
-        return redirect('upload_document')
+    return redirect('upload_document')
