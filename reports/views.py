@@ -18,7 +18,7 @@ def upload_document(request, response=None):
             newdoc.save()
             response = extractText(newdoc.docfile.path)
             # Redirect to the document list after POST
-            return render(request, 'success.html', {'response': response})
+            return render(request, 'success.html', {'response': response, 'docurl': newdoc.docfile.url})
         else:
             message = 'The uploaded document is not valid. Fix the following error(s):'
     else:

@@ -1,9 +1,16 @@
 {% extends 'base.html'%}
 {% block content %}
 
+<div class="text-center">
+    <h1>Uploaded document</h1>
+    <iframe id="iframe_pdf" src= "{{docurl}}" width="800" height="500">
+    </iframe>
 
-{% if response %}
-    <p>Response: {{ response }}</p>
-{% endif %}
+    <h4>Response</h4>
+    {% if response %}
+        <p>Response: {{ response }}</p>
+    {% endif %}
+</div>
+
 
 {% endblock %}
