@@ -1,31 +1,53 @@
 {% extends 'base.html'%}
 {% block content %}
 <!-- List of uploaded documents -->
-{% if documents %}
-All documents in the database:
-<ul>
-    {% for document in documents %}
-    <li><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No documents.</p>
-{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <p>Your Documents</p>
+            {% if documents %}
+            <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                <tr>
+                <td>{{document.name}}</td>
+                <td>
+                    <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="btn btn-success"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            {% else %}
+            <p>No documents.</p>
+            {% endif %}
+        </div>
+            <div class="col-6 col-md-4">
+                <!-- Upload form. Note enctype attribute! -->
+                <form action="{% url 'upload_document' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ message }}
+                    <p>{{ form.non_field_errors }}</p>
 
-<!-- Upload form. Note enctype attribute! -->
-<form action="{% url 'upload_document' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ message }}
-    <p>{{ form.non_field_errors }}</p>
+                    <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
 
-    <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                    <p>
+                        {{ form.docfile.errors }}
+                        {{ form.docfile }}
+                    </p>
 
-    <p>
-        {{ form.docfile.errors }}
-        {{ form.docfile }}
-    </p>
-
-    <p><input type="submit" value="Upload" /></p>
-</form>
+                    <p><input type="submit" value="Upload" /></p>
+                </form>
+            </div>
+        </div>
+  </div>
 
 {% endblock %}

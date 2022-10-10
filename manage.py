@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from config import get_config
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'docs2report.settings')
@@ -18,4 +18,5 @@ def main():
 
 
 if __name__ == '__main__':
+    get_config()
     main()
