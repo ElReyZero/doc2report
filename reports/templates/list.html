@@ -20,7 +20,10 @@
                 <td>
                     <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button>
                     <button type="button" class="btn btn-success"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <form action="{% url 'delete_document' document.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" value=""><i class="fa fa-trash"></i></input>
+                    </form>
                 </td>
                 </tr>
                 {% endfor %}

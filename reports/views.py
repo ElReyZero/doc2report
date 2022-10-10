@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Document
 from .forms import DocumentForm
 from .logic.pdfscanner import extractText
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from accounts.models import User
 
 
 @login_required
@@ -35,3 +35,11 @@ def upload_document(request, response=None):
 
 def success(request):
     return render(request, 'success.html')
+
+@login_required
+def delete_document(request, pk):
+    if request.method == 'POST':
+        document = Document.objects.get(id=pk)
+        if request.user.id == document.user.id:
+            document.delete()
+        return redirect('upload_document')
