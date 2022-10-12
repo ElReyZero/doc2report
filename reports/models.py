@@ -20,6 +20,10 @@ class Report(models.Model):
     name = models.CharField(max_length=255, blank=False)
     document = models.ForeignKey(Document, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pet_filter = models.BooleanField()
+    rental_filter = models.BooleanField()
+    bbq_filter = models.BooleanField()
+    smoking_filter = models.BooleanField()
 
     def __str__(self):
         return self.name
