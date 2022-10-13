@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
 from reports.models import Report
+from accounts.models import User
 from .models import Document
 from .forms import DocumentForm, ReportFilterForm
 from .logic.pdfscanner import extractText
-from django.contrib.auth.decorators import login_required
-from accounts.models import User
-
 
 @login_required
 def upload_document(request, response=None):
@@ -31,7 +30,7 @@ def upload_document(request, response=None):
     # Render list page with the documents and the form
     context = {'documents': documents, 'form': form,
                'message': message, 'response': response}
-    return render(request, 'list.html', context)
+    return render(request, 'document_list.html', context)
 
 @login_required
 def generate_report(request, pk):
