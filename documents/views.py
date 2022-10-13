@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
 from reports.models import Report
 from .models import Document
 from .forms import DocumentForm, ReportFilterForm
@@ -34,25 +35,28 @@ def upload_document(request, response=None):
 
 @login_required
 def generate_report(request, pk):
-    document = Document.objects.get(id=pk)
-    if document:
-        form = ReportFilterForm(request.POST)
-        if form.is_valid():
-            # Extract text from pdf
-            data = form.cleaned_data
-            user = User.objects.get(id=request.user.id)
-            report = Report(name=data["name"], document=document, user=user,
-                pet_filter = True if '0' in data["options"] else False,
-                rental_filter = True if '1' in data["options"] else False,
-                bbq_filter = True if '2' in data["options"] else False,
-                smoking_filter= True if '3' in data["options"] else False,)
-            report.save()
-            # Filter text
-            # TODO: Implement filtering and save filtered text to report
-            return redirect("upload_document")
+    try:
+        document = Document.objects.get(id=pk)
+        if document:
+            form = ReportFilterForm(request.POST)
+            if form.is_valid():
+                # Extract text from pdf
+                data = form.cleaned_data
+                user = User.objects.get(id=request.user.id)
+                report = Report(name=data["name"], document=document, user=user,
+                    pet_filter = True if '0' in data["options"] else False,
+                    rental_filter = True if '1' in data["options"] else False,
+                    bbq_filter = True if '2' in data["options"] else False,
+                    smoking_filter= True if '3' in data["options"] else False,)
+                report.save()
+                # Filter text
+                # TODO: Implement filtering and save filtered text to report
+                return redirect("upload_document")
+            else:
+                return render(request, 'generate_report.html', {'form': form, 'docurl': document.docfile.url,'docid':document.id})
         else:
-            return render(request, 'generate_report.html', {'form': form, 'docurl': document.docfile.url,'docid':document.id})
-    else:
+            return redirect("upload_document")
+    except ValidationError:
         return redirect("upload_document")
 
 @login_required
