@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from .models import Report
 from documents.models import Document
 from .logic.pdfscanner import extractText
-from .logic.nlp import predictFilters
+from .logic.nlp import predictFiltersText
 from .logic.predictions_parser import parse_predictions
 # Create your views here.
 
@@ -36,7 +36,7 @@ def generated_report(request, pk):
                 filters.append("BBQ")
             if report.smoking_filter:
                 filters.append("Smoking")
-            predictions = predictFilters(filters, text)
+            predictions = predictFiltersText(filters, text)
             results = parse_predictions(predictions, text)
             report.predictions = results
             return render(request, "generated_report.html", context={'report': report, 'results': results})
