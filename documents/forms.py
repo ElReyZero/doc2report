@@ -23,6 +23,5 @@ class ReportFilterForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         label="Restrictions",
         required=True,
-        error_messages={'required': 'Error: Please select at least one restriction.'
-        }
+        error_messages={'required': 'Error: Please select at least one restriction.'}
     )

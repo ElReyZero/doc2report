@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
@@ -5,7 +6,6 @@ from reports.models import Report
 from accounts.models import User
 from .models import Document
 from .forms import DocumentForm, ReportFilterForm
-from .logic.pdfscanner import extractText
 
 @login_required
 def upload_document(request, response=None):
@@ -36,7 +36,8 @@ def upload_document(request, response=None):
 def generate_report(request, pk):
     try:
         document = Document.objects.get(id=pk)
-        if document:
+        error_msg = None
+        if document and request.method == 'POST':
             form = ReportFilterForm(request.POST)
             if form.is_valid():
                 # Extract text from pdf
@@ -48,11 +49,12 @@ def generate_report(request, pk):
                     bbq_filter = True if '2' in data["options"] else False,
                     smoking_filter= True if '3' in data["options"] else False,)
                 report.save()
-                # Filter text
-                # TODO: Implement filtering and save filtered text to report
-                return redirect("upload_document")
+                return redirect("generated_report", report.id)
             else:
-                return render(request, 'generate_report.html', {'form': form, 'docurl': document.docfile.url,'docid':document.id})
+                form = ReportFilterForm()
+                if "name" in request.POST.keys():
+                    error_msg = 'The report is not valid. Fix the following error:\nYou must select at least one filter'
+            return render(request, 'generate_report.html', {'form': form, 'docurl': document.docfile.url,'docid':document.id, 'error_msg': error_msg})
         else:
             return redirect("upload_document")
     except ValidationError:
