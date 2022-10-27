@@ -8,5 +8,5 @@ def extractText(file):
         pdfReader = PyPDF2.PdfFileReader(file)
         pages = list()
         for page in pdfReader.pages:
-            pages = pages + sent_tokenize(page.extractText())
+            pages.append(sent_tokenize(page.extractText()))
     return pages

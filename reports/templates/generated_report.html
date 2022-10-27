@@ -1,7 +1,73 @@
 {% extends 'base.html'%}
-
-<p>Results:</p>
-<p>{{results}}</p>
-
 {% block content %}
-{% endblock %}
+
+<script>
+  function copyToClipboard() {
+  // Get the text field
+  var url = window.location.href;
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(url);
+
+}
+</script>
+
+
+<div class="row">
+  <div class="col-md-8">
+
+    <h3>Restrictions Found in the Document:</h3>
+
+    <div class="accordion" id="accordionExample">
+      {% for filter, values in results.items %}
+      <div class="card">
+        <div class="card-header" id="heading{{filter}}">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{filter}}"
+              aria-expanded="true" aria-controls="collapse{{filter}}">
+              {{filter}} Restrictions
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapse{{filter}}" class="collapse show" aria-labelledby="heading{{filter}}">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sentence</th>
+                  <th scope="col">Prediction</th>
+                  <th scope="col">Page</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for value in values %}
+                <tr>
+                  <td>{{value.cleaned_sentence}}</td>
+                  <td>{{value.predicted}}</td>
+                  <td>{{value.page}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-md-4">
+    {% if report.is_public %}
+      <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip" data-placement="bottom" title="Copy share link to clipboard">Share Report <i class="fa-solid fa-share-from-square"></i></input>
+    {% else %}
+
+    <form action="{% url 'share_report' report.id %}" type="submit">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary" value="">Make Public</input>
+    </form>
+
+    {% endif %}
+  </div>
+</div>
+
+  {% endblock %}

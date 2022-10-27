@@ -13,7 +13,8 @@ class Report(models.Model):
     rental_filter = models.BooleanField()
     bbq_filter = models.BooleanField()
     smoking_filter = models.BooleanField()
-    predictions = models.TextField(null=True)
+    predictions = models.JSONField(null=True)
+    is_public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
