@@ -2,18 +2,18 @@
 {% block content %}
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-md-8">
         <div class="text-center">
             <h1>Uploaded document</h1>
-            <iframe id="iframe_pdf" src="{{docurl}}" width="800" height="600">
+            <iframe id="iframe_pdf" src="{{docurl}}" width="800" height="750vh">
             </iframe>
         </div>
     </div>
-    <div class="col">
+    <div class="col-6 col-md-4">
         <form action="{% url 'generate_report' docid %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col">
-                {{form}}
+                {{form.as_p}}
                 <p><input class="btn btn-primary" type="submit" value="Generate Report" /></p>
             </div>
             {% if error_msg %}
