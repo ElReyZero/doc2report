@@ -7,54 +7,57 @@
             <p>Your Documents</p>
             {% if documents %}
             <table class="table table-bordered">
-            <thead>
-                <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for document in documents %}
-                <tr>
-                <td>{{document.name}}</td>
-                <td>
-                    <div class="btn-group">
-                        <form action="{% url 'generate_report' document.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary" value="generate_report" data-toggle="tooltip" data-placement="top" title="View Document"><i class="fa fa-eye"></i></input>
-                        </form>
-                        <form action="{% url 'delete_document' document.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger" value="" data-toggle="tooltip" data-placement="top" title="Delete Document"><i class="fa fa-trash"></i></input>
-                        </form>
-                    </div>
-                </td>
-                </tr>
-                {% endfor %}
-            </tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for document in documents %}
+                    <tr>
+                        <td>{{document.name}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <form action="{% url 'generate_report' document.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary" value="generate_report"
+                                        data-toggle="tooltip" data-placement="top" title="View Document"><i
+                                            class="fa fa-eye"></i></input>
+                                </form>
+                                <form action="{% url 'delete_document' document.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" value="" data-toggle="tooltip"
+                                        data-placement="top" title="Delete Document"><i class="fa fa-trash"></i></input>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
             {% else %}
             <p>No documents.</p>
             {% endif %}
         </div>
-            <div class="col-6 col-md-4">
-                <!-- Upload form. Note enctype attribute! -->
-                <form action="{% url 'upload_document' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ message }}
-                    <p>{{ form.non_field_errors }}</p>
+        <div class="col-6 col-md-4">
+            <!-- Upload form. Note enctype attribute! -->
+            <form action="{% url 'upload_document' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ message }}
+                <p>{{ form.non_field_errors }}</p>
 
-                    <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
 
-                    <p>
-                        {{ form.docfile.errors }}
-                        {{ form.docfile }}
-                    </p>
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                </p>
 
-                    <p><input type="submit" value="Upload" /></p>
-                </form>
-            </div>
+                <p><input type="submit" value="Upload" /></p>
+            </form>
         </div>
-  </div>
+    </div>
+</div>
 
 {% endblock %}

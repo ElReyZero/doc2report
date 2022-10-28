@@ -3,13 +3,13 @@
 
 <script>
   function copyToClipboard() {
-  // Get the text field
-  var url = window.location.href;
+    // Get the text field
+    var url = window.location.href;
 
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(url);
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(url);
 
-}
+  }
 </script>
 
 
@@ -58,16 +58,18 @@
   </div>
   <div class="col-md-4">
     {% if report.is_public %}
-      <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip" data-placement="bottom" title="Copy share link to clipboard">Share Report <i class="fa-solid fa-share-from-square"></i></input>
-    {% else %}
+    <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
+      data-placement="bottom" title="Copy share link to clipboard">Share Report <i
+        class="fa-solid fa-share-from-square"></i></input>
+      {% else %}
 
-    <form action="{% url 'share_report' report.id %}" type="submit">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-primary" value="">Make Public</input>
-    </form>
+      <form action="{% url 'share_report' report.id %}" type="submit">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" value="">Make Public</input>
+      </form>
 
-    {% endif %}
+      {% endif %}
   </div>
 </div>
 
-  {% endblock %}
+{% endblock %}
