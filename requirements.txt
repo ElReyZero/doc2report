@@ -1,5 +1,6 @@
 django==3.2.16
 psycopg2-binary
 PyPDF2==2.11.1
+tensorflow
 nltk
 transformers
