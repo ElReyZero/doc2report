@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = cfg.DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "docs2report.com", "127.0.0.1"]
 
 
 # Application definition
@@ -133,3 +133,12 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+if os.environ.get("DJANGO_ENV"):
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_SECONDS = 60
+    SECURE_HSTS_PRELOAD = True
