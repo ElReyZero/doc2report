@@ -29,6 +29,7 @@ def generated_report(request, pk):
         elif report and report.predictions == None:
             document = Document.objects.get(id=report.document.id)
             text = extractText(document.docfile.path)
+            document.doc_page_length = len(text)
             filters = []
             if report.pet_filter:
                 filters.append("Pets")

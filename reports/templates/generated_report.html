@@ -57,8 +57,15 @@
     </div>
   </div>
   <div class="col-md-4">
+    <h3>Document details</h3>
+    <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
+      Document name: {{report.document.name}}
+      Number of pages: {{report.document.doc_page_length}}
+      <a href="{{report.document.docfile.url}}" target="_blank">View Document</a>
+    </div>
+    <br>
     {% if report.is_public %}
-    <h3>Share the report!</h3>
+    <h3>Share this report!</h3>
     <p style="display: none;" id="copied-text">Link copied to clipboard!</p>
     <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
       data-placement="bottom" title="Copy share link to clipboard">Copy Link
