@@ -58,13 +58,13 @@ def delete_report(request, pk):
         return redirect("user_reports")
 
 @login_required
-def share_report(request, pk):
+def change_report_visibility(request, pk):
     try:
         report = Report.objects.get(id=pk)
-        if report:
-            report.is_public = True
+        if report and request.user.id == report.user.id:
+            report.is_public = not report.is_public
             report.save()
-            return redirect("user_reports")
+            return redirect("generated_report", pk=pk)
         return redirect("user_reports")
     except ValidationError:
         return redirect("user_reports")

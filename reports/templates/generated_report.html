@@ -4,11 +4,11 @@
 <script>
   function copyToClipboard() {
     // Get the text field
-    var url = window.location.href;
+    var url = window.location.origin;
 
     // Copy the text inside the text field
-    navigator.clipboard.writeText(url);
-
+    navigator.clipboard.writeText(url + "/reports/public/{{report.id}}");
+    document.getElementById("copied-text").style.display = "block";
   }
 </script>
 
@@ -58,14 +58,25 @@
   </div>
   <div class="col-md-4">
     {% if report.is_public %}
+    <h3>Share the report!</h3>
+    <p style="display: none;" id="copied-text">Link copied to clipboard!</p>
     <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
-      data-placement="bottom" title="Copy share link to clipboard">Share Report <i
-        class="fa-solid fa-share-from-square"></i></input>
-      {% else %}
-
-      <form action="{% url 'share_report' report.id %}" type="submit">
+      data-placement="bottom" title="Copy share link to clipboard">Copy Link
+    </button>
+      {% if user.id == report.user.id %}
+      <br>
+      <form action="{% url 'change_report_visibility' report.id %}" type="submit">
         {% csrf_token %}
-        <button type="submit" class="btn btn-primary" value="">Make Public</input>
+        <button type="submit" class="btn btn-danger" value="" style="margin-top: 5px;">
+          Make Private
+        </button>
+      </form>
+      {% endif %}
+      {% else %}
+      <h3>Visibility</h3>
+      <form action="{% url 'change_report_visibility' report.id %}" type="submit">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" value="">Make Public</button>
       </form>
 
       {% endif %}
