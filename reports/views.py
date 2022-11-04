@@ -30,6 +30,7 @@ def generated_report(request, pk):
             document = Document.objects.get(id=report.document.id)
             text = extractText(document.docfile.path)
             document.doc_page_length = len(text)
+            document.save()
             filters = []
             if report.pet_filter:
                 filters.append("Pets")
