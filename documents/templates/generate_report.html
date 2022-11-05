@@ -25,8 +25,9 @@
                 {{form.as_p}}
                 <p><input class="btn btn-primary" type="submit" value="Generate Report"/></p>
                 <div id="loader" style="display: none;">
-                    <div style="padding-right: 5px;">Loading...</div>
-                    <img src="/static/loading-gif.gif" height="20px" width="20px"/>
+                    <div style="padding-right: 7px; white-space: pre-line;">Generating Report...
+                        This could take a few seconds</div>
+                    <img src="/static/loading-gif.gif" height="25px" width="25px"/>
                 </div>
             </div>
             {% if error_msg %}
