@@ -4,7 +4,7 @@
 <script>
   function copyToClipboard() {
     // Get the text field
-    var url = window.location.origin;
+    let url = window.location.origin;
 
     // Copy the text inside the text field
     navigator.clipboard.writeText(url + "/reports/public/{{report.id}}");
@@ -32,6 +32,7 @@
 
         <div id="collapse{{filter}}" class="collapse show" aria-labelledby="heading{{filter}}">
           <div class="card-body">
+            {% if values %}
             <table class="table">
               <thead>
                 <tr>
@@ -50,6 +51,9 @@
                 {% endfor %}
               </tbody>
             </table>
+            {% else %}
+            <p>No {{filter}} restrictions found.</p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -61,10 +65,11 @@
     <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
       Document name: {{report.document.name}}
       Number of pages: {{report.document.doc_page_length}}
-      <a href="{{report.document.docfile.url}}" target="_blank">View Document</a>
+      <button type="text" class="btn btn-primary" value="" onClick="window.open('{{report.document.docfile.url}}', '_blank')" data-toggle="tooltip"
+      data-placement="bottom" title="View Document" id="view-doc-btn" style="margin-top: 5px">View Document</button>
     </div>
-    <br>
     {% if report.is_public %}
+    <br>
     <h3>Share this report!</h3>
     <p style="display: none;" id="copied-text">Link copied to clipboard!</p>
     <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
@@ -80,12 +85,10 @@
       </form>
       {% endif %}
       {% else %}
-      <h3>Visibility</h3>
       <form action="{% url 'change_report_visibility' report.id %}" type="submit">
         {% csrf_token %}
-        <button type="submit" class="btn btn-primary" value="">Make Public</button>
+        <button type="submit" class="btn btn-primary" value="" style="margin-top: 5px;">Make Public</button>
       </form>
-
       {% endif %}
   </div>
 </div>

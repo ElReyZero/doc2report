@@ -2,7 +2,6 @@ from json import dumps, loads
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
 from .models import Report
 from documents.models import Document
 from .logic.pdfscanner import extractText
