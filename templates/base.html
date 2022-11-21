@@ -37,10 +37,7 @@
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'upload_document' %}">My Documents</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_reports' %}">Document Reports</a>
+                        <a class="nav-link" href="{% url 'user_reports' %}">My Reports</a>
                     </li>
                 </ul>
                 {% else %}

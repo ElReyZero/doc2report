@@ -2,8 +2,10 @@ from json import dumps, loads
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from accounts.models import User
 from .models import Report
 from documents.models import Document
+from .forms import NewReportForm
 from .logic.pdfscanner import extractText
 from .logic.nlp import predict_filters_sentences
 # Create your views here.
@@ -18,15 +20,32 @@ def user_reports(request):
     context = {'reports': reports}
     return render(request, 'report_list.html', context)
 
+@login_required
+def create_report(request):
+    if request.method == 'POST':
+        form = NewReportForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = User.objects.get(id=request.user.id)
+            report = Report(name=data["name"], user=user)
+            report.save()
+            return redirect("user_reports")
+        return render(request, 'create_report.html', {'form': form})
+    else:
+        form = NewReportForm()
+        context = {'form': form }
+        return render(request, "create_report.html", context)
+
 
 @login_required
-def generated_report(request, pk):
+def view_report(request, report_pk):
     try:
-        report = Report.objects.get(id=pk)
+        report = Report.objects.get(id=report_pk)
         if not report:
             return redirect("user_reports")
-        elif report and report.predictions == None:
-            document = Document.objects.get(id=report.document.id)
+        else:
+            documents = Document.objects.filter(report=report)
+            """document = Document.objects.get(id=report.document.id)
             text = extractText(document.docfile.path)
             document.doc_page_length = len(text)
             document.save()
@@ -42,15 +61,15 @@ def generated_report(request, pk):
             results = predict_filters_sentences(filters, text)
             report.predictions = dumps(results)
             report.save()
-            return render(request, "generated_report.html", context={'report': report, 'results': results})
-        return render(request, "generated_report.html", context={'report': report, 'results': loads(report.predictions)})
+            return render(request, "generated_report.html", context={'report': report, 'results': results})"""
+            return render(request, "view_report.html", context={'report': report , 'documents': documents})
     except ValidationError:
         return redirect("user_reports")
 
 @login_required
-def delete_report(request, pk):
+def delete_report(request, report_pk):
     try:
-        report = Report.objects.get(id=pk)
+        report = Report.objects.get(id=report_pk)
         if report:
             report.delete()
             return redirect("user_reports")
@@ -59,20 +78,20 @@ def delete_report(request, pk):
         return redirect("user_reports")
 
 @login_required
-def change_report_visibility(request, pk):
+def change_report_visibility(request, report_pk):
     try:
-        report = Report.objects.get(id=pk)
+        report = Report.objects.get(id=report_pk)
         if report and request.user.id == report.user.id:
             report.is_public = not report.is_public
             report.save()
-            return redirect("generated_report", pk=pk)
+            return redirect("generated_report", pk=report_pk)
         return redirect("user_reports")
     except ValidationError:
         return redirect("user_reports")
 
-def public_reports(request, pk):
+def public_reports(request, report_pk):
     try:
-        report = Report.objects.get(id=pk)
+        report = Report.objects.get(id=report_pk)
         if report and report.is_public:
             return render(request, "generated_report.html", context={'report': report, 'results': loads(report.predictions)})
 

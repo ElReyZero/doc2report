@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+    <div class="col-12 col-md-8">
+        <p>Report: {{report.name}}</p>
+        {% if documents %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Documents</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            {% for document in documents %}
+            <tr>
+                <td>{{document.name}}</td>
+                <td>{{document.doc_type}}</td>
+                <td>
+                    <div class="btn-group">
+                        <form action="{% url 'view_report' document.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" value=""><i
+                                    class="fa fa-eye"></i></input>
+                        </form>
+                        <form action="{% url 'delete_document' document.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" value=""><i
+                                    class="fa fa-trash"></i></input>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No documents found</p>
+        {% endif %}
+        <div class="row">
+            {% if documents|length < 3%}
+                <form action="{% url 'upload_document' report.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col">
+                        <p><input class="btn btn-primary" type="submit" value="Add Document"/></p>
+                    </div>
+                </form>
+            {% endif %}
+            {% if report.can_generate %}
+                <form action="{% url 'generate_report' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col">
+                        <p><input class="btn btn-primary" type="submit" value="Generate Report"/></p>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

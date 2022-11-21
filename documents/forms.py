@@ -5,6 +5,14 @@ def validate_file_extension(document):
         raise forms.ValidationError(u'File is not in PDF format')
 
 class DocumentForm(forms.Form):
+    type = forms.ChoiceField(
+        label="Select a document type",
+        choices=[("0", "Bylaw"),
+        ("1", "Strata Minute"),
+        ("2", "Financial")],
+        required=True,
+        error_messages={'required': 'Please select a document type.'}
+    )
     docfile = forms.FileField(label='Select a file', validators=[validate_file_extension])
 
 class ReportFilterForm(forms.Form):

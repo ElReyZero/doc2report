@@ -8,34 +8,34 @@ from .models import Document
 from .forms import DocumentForm, ReportFilterForm
 
 @login_required
-def upload_document(request, response=None):
-    message = 'Upload as many files as you want!'
+def upload_document(request, report_pk):
+    message = 'Upload the document!'
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
+            data = form.cleaned_data
             user = User.objects.get(id=request.user.id)
-            newdoc = Document(docfile=request.FILES['docfile'], user=user)
+            report = Report.objects.get(id=report_pk)
+            newdoc = Document(docfile=request.FILES['docfile'], user=user, report=report, doc_type=data["choices"][1])
             newdoc.save()
             # Redirect to the document list after POST
-            return redirect("generate_report", newdoc.id)
+            return redirect("view_report", report.id)
         else:
             message = 'The uploaded document is not valid. Fix the following error(s):'
     else:
         form = DocumentForm()  # An empty, unbound form
-        response = None
-    # Load documents for the list page
-    documents = Document.objects.filter(user=request.user.id)
 
     # Render list page with the documents and the form
-    context = {'documents': documents, 'form': form,
-               'message': message, 'response': response}
-    return render(request, 'document_list.html', context)
+    context = {'form': form,
+               'message': message,
+               'report_pk': report_pk}
+    return render(request, 'upload_document.html', context)
 
 @login_required
-def generate_report(request, pk):
+def generate_report(request, doc_pk):
     try:
-        document = Document.objects.get(id=pk)
+        document = Document.objects.get(id=doc_pk)
         error_msg = None
         if document and request.method == 'POST':
             form = ReportFilterForm(request.POST)

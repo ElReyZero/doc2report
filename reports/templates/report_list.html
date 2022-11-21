@@ -19,7 +19,7 @@
                         <td>{{report.name}}</td>
                         <td>
                             <div class="btn-group">
-                                <form action="{% url 'generated_report' report.id %}" method="post">
+                                <form action="{% url 'view_report' report.id %}" method="post">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-primary" value=""><i
                                             class="fa fa-eye"></i></input>
@@ -37,8 +37,25 @@
             </table>
             {% else %}
             <p>No reports.</p>
+            <form action="{% url 'create_report' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" value="">
+                    Create new Report
+                </input>
+            </form>
             {% endif %}
         </div>
+        {% if reports%}
+        <div class="col report-btn-col">
+            <br><br>
+            <form action="{% url 'create_report' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" value="">
+                    Create new Report
+                </input>
+            </form>
+        </div>
+        {% endif %}
     </div>
 
     {% endblock %}
