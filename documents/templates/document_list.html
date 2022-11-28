@@ -19,7 +19,7 @@
                         <td>{{document.name}}</td>
                         <td>
                             <div class="btn-group">
-                                <form action="{% url 'generate_report' document.id %}" method="post">
+                                <form action="{% 'view_document' document.id %}" method="post">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-primary" value="generate_report"
                                         data-toggle="tooltip" data-placement="top" title="View Document"><i

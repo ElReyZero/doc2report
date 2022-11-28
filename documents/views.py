@@ -17,7 +17,13 @@ def upload_document(request, report_pk):
             data = form.cleaned_data
             user = User.objects.get(id=request.user.id)
             report = Report.objects.get(id=report_pk)
-            newdoc = Document(docfile=request.FILES['docfile'], user=user, report=report, doc_type=data["choices"][1])
+            document_list = Document.objects.filter(report=report)
+            for document in document_list:
+                if document.doc_type == data['type']:
+                    message = f'You have already uploaded a {data["type"]} document for this report!'
+                    return render(request, 'upload_document.html', {'form': form, 'message': message, 'report_pk': report_pk})
+
+            newdoc = Document(docfile=request.FILES['docfile'], user=user, report=report, doc_type=data["type"])
             newdoc.save()
             # Redirect to the document list after POST
             return redirect("view_report", report.id)
@@ -61,9 +67,13 @@ def generate_report(request, doc_pk):
         return redirect("upload_document")
 
 @login_required
-def delete_document(request, pk):
+def view_document(request, report_pk, doc_pk):
+    return render(request, 'view_document.html', {'docurl': Document.objects.get(id=doc_pk).docfile.url})
+
+@login_required
+def delete_document(request, report_pk, doc_pk):
     if request.method == 'POST':
-        document = Document.objects.get(id=pk)
+        document = Document.objects.get(id=doc_pk)
         if request.user.id == document.user.id:
             document.delete()
-    return redirect('upload_document')
+    return redirect('view_report', report_pk)

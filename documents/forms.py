@@ -7,13 +7,14 @@ def validate_file_extension(document):
 class DocumentForm(forms.Form):
     type = forms.ChoiceField(
         label="Select a document type",
-        choices=[("0", "Bylaw"),
-        ("1", "Strata Minute"),
-        ("2", "Financial")],
+        choices=[("Bylaws", "Bylaws"),
+        ("Strata Minute", "Strata Minute"),
+        ("Financial", "Financial")],
         required=True,
+        widget=forms.Select(),
         error_messages={'required': 'Please select a document type.'}
     )
-    docfile = forms.FileField(label='Select a file', validators=[validate_file_extension])
+    docfile = forms.FileField(label="Select the file to upload", validators=[validate_file_extension])
 
 class ReportFilterForm(forms.Form):
 

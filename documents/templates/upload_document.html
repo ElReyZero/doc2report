@@ -1,20 +1,27 @@
 {% extends 'base.html'%}
 {% block content %}
-<div class="col-6 col-md-4">
+<div class="col">
     <!-- Upload form. Note enctype attribute! -->
     <form action="{% url 'upload_document' report_pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ message }}
-        <p>{{ form.non_field_errors }}</p>
+        <div class="row">
+            <div class="col">
+                <h3>Select the document type</h3>
+                {{form.type}}
+                <br><br>
+                {{ message }}
+                <p>{{ form.non_field_errors }}</p>
 
-        <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
 
-        <p>
-            {{ form.docfile.errors }}
-            {{ form.docfile }}
-        </p>
-
-        <p><input type="submit" value="Upload" /></p>
+                <p>
+                    {{ form.docfile.errors }}
+                    {{ form.docfile }}
+                </p>
+                <p><input type="submit" value="Upload" /></p>
+            </div>
+        </div>
+        <br>
     </form>
 </div>
 {% endblock %}

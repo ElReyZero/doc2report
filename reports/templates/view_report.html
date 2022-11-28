@@ -7,7 +7,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Documents</th>
+                    <th scope="col">Document Name</th>
                     <th scope="col">Type</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -18,12 +18,12 @@
                 <td>{{document.doc_type}}</td>
                 <td>
                     <div class="btn-group">
-                        <form action="{% url 'view_report' document.id %}" method="post">
+                        <form action="{% url 'view_document' report.id document.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-primary" value=""><i
                                     class="fa fa-eye"></i></input>
                         </form>
-                        <form action="{% url 'delete_document' document.id %}" method="post">
+                        <form action="{% url 'delete_document' report.id document.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger" value=""><i
                                     class="fa fa-trash"></i></input>

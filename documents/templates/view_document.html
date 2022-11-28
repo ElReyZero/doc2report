@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+    <div class="text-center">
+        <h1>Uploaded document</h1>
+        <iframe id="iframe_pdf" src="{{docurl}}" width="800" height="750vh">
+        </iframe>
+    </div>
+</div>
+{% endblock %}
