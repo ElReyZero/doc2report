@@ -22,7 +22,8 @@ def upload_document(request, report_pk):
                 if document.doc_type == data['type']:
                     message = f'You have already uploaded a {data["type"]} document for this report!'
                     return render(request, 'upload_document.html', {'form': form, 'message': message, 'report_pk': report_pk})
-
+            report.can_generate = True
+            report.save()
             newdoc = Document(docfile=request.FILES['docfile'], user=user, report=report, doc_type=data["type"])
             newdoc.save()
             # Redirect to the document list after POST
