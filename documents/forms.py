@@ -14,7 +14,6 @@ class DocumentForm(forms.Form):
         widget=forms.Select(),
         error_messages={'required': 'Please select a document type.'}
     )
-    docfile = forms.FileField(label="Select the file to upload", validators=[validate_file_extension])
 
 class ReportFilterForm(forms.Form):
 

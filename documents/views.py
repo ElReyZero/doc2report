@@ -12,20 +12,16 @@ def upload_document(request, report_pk):
     message = 'Upload the document!'
     # Handle file upload
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
+        form = DocumentForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             user = User.objects.get(id=request.user.id)
             report = Report.objects.get(id=report_pk)
-            document_list = Document.objects.filter(report=report)
-            for document in document_list:
-                if document.doc_type == data['type']:
-                    message = f'You have already uploaded a {data["type"]} document for this report!'
-                    return render(request, 'upload_document.html', {'form': form, 'message': message, 'report_pk': report_pk})
             report.can_generate = True
             report.save()
-            newdoc = Document(docfile=request.FILES['docfile'], user=user, report=report, doc_type=data["type"])
-            newdoc.save()
+            for i in range(len(request.FILES)):
+                newdoc = Document(docfile=request.FILES[f"file[{i}]"], user=user, report=report, doc_type=data["type"])
+                newdoc.save()
             # Redirect to the document list after POST
             return redirect("view_report", report.id)
         else:

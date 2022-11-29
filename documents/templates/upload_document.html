@@ -1,5 +1,41 @@
 {% extends 'base.html'%}
 {% block content %}
+
+<script>
+    Dropzone.options.uploadForm = {
+        url: "{% url 'upload_document' report_pk %}",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 5,
+        maxFiles: 10,
+        maxFilesize: 10,
+        acceptedFiles: '.pdf',
+        addRemoveLinks: true,
+        init: function () {
+            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+            // for Dropzone to process the queue (instead of default form behavior):
+            document.getElementById("submit-all").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                dzClosure.processQueue();
+            });
+
+            //send all the form data along with the files:
+            this.on("sendingmultiple", function (data, xhr, formData) {
+                formData.append("type", jQuery("#id_type").val());
+                formData.append("csrfmiddlewaretoken", jQuery("[name=csrfmiddlewaretoken]").val());
+            });
+            this.on("successmultiple", function (files, response) {
+                // Gets triggered when the files have successfully been sent.
+                // Redirect user or notify of success.
+                window.location.href = "{% url 'view_report' report_pk %}";
+            });
+        }
+    }
+</script>
+
 <div class="col">
     <!-- Upload form. Note enctype attribute! -->
     <form action="{% url 'upload_document' report_pk %}" method="post" enctype="multipart/form-data">
@@ -16,9 +52,11 @@
 
                 <p>
                     {{ form.docfile.errors }}
-                    {{ form.docfile }}
+                <div class="dropzone" id="upload-form">
+
+                </div>
                 </p>
-                <p><input type="submit" value="Upload" /></p>
+                <p><input type="submit" value="Upload" id="submit-all" /></p>
             </div>
         </div>
         <br>
