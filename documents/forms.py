@@ -1,20 +1,5 @@
 from django import forms
 
-def validate_file_extension(document):
-    if not document.name.endswith('.pdf'):
-        raise forms.ValidationError(u'File is not in PDF format')
-
-class DocumentForm(forms.Form):
-    type = forms.ChoiceField(
-        label="Select a document type",
-        choices=[("Bylaws", "Bylaws"),
-        ("Strata Minute", "Strata Minute"),
-        ("Financial", "Financial")],
-        required=True,
-        widget=forms.Select(),
-        error_messages={'required': 'Please select a document type.'}
-    )
-
 class ReportFilterForm(forms.Form):
 
     OPTIONS = [

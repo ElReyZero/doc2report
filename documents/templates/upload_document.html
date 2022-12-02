@@ -7,8 +7,8 @@
         autoProcessQueue: false,
         uploadMultiple: true,
         parallelUploads: 5,
-        maxFiles: 10,
-        maxFilesize: 10,
+        maxFiles: 50,
+        maxFilesize: 20,
         acceptedFiles: '.pdf',
         addRemoveLinks: true,
         init: function () {
@@ -24,7 +24,6 @@
 
             //send all the form data along with the files:
             this.on("sendingmultiple", function (data, xhr, formData) {
-                formData.append("type", jQuery("#id_type").val());
                 formData.append("csrfmiddlewaretoken", jQuery("[name=csrfmiddlewaretoken]").val());
             });
             this.on("successmultiple", function (files, response) {
@@ -42,21 +41,17 @@
         {% csrf_token %}
         <div class="row">
             <div class="col">
-                <h3>Select the document type</h3>
-                {{form.type}}
-                <br><br>
+                <h3>Upload your files</h3>
+                <br>
                 {{ message }}
-                <p>{{ form.non_field_errors }}</p>
-
-                <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-
-                <p>
-                    {{ form.docfile.errors }}
+                <br><br>
                 <div class="dropzone" id="upload-form">
 
                 </div>
                 </p>
-                <p><input type="submit" value="Upload" id="submit-all" /></p>
+                <p><button class="btn btn-primary" type="submit" value="Upload" id="submit-all">
+                        Upload
+                    </button></p>
             </div>
         </div>
         <br>

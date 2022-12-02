@@ -5,33 +5,24 @@ from django.contrib.auth.decorators import login_required
 from reports.models import Report
 from accounts.models import User
 from .models import Document
-from .forms import DocumentForm, ReportFilterForm
+from .forms import ReportFilterForm
 
 @login_required
 def upload_document(request, report_pk):
-    message = 'Upload the document!'
+    message = 'Upload as many documents as needed!'
     # Handle file upload
     if request.method == 'POST':
-        form = DocumentForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = User.objects.get(id=request.user.id)
-            report = Report.objects.get(id=report_pk)
-            report.can_generate = True
-            report.save()
-            for i in range(len(request.FILES)):
-                newdoc = Document(docfile=request.FILES[f"file[{i}]"], user=user, report=report, doc_type=data["type"])
-                newdoc.save()
-            # Redirect to the document list after POST
-            return redirect("view_report", report.id)
-        else:
-            message = 'The uploaded document is not valid. Fix the following error(s):'
-    else:
-        form = DocumentForm()  # An empty, unbound form
-
+        user = User.objects.get(id=request.user.id)
+        report = Report.objects.get(id=report_pk)
+        report.can_generate = True
+        report.save()
+        for i in range(len(request.FILES)):
+            newdoc = Document(docfile=request.FILES[f"file[{i}]"], user=user, report=report)
+            newdoc.save()
+        # Redirect to the document list after POST
+        return redirect("view_report", report.id)# An empty, unbound form
     # Render list page with the documents and the form
-    context = {'form': form,
-               'message': message,
+    context = {'message': message,
                'report_pk': report_pk}
     return render(request, 'upload_document.html', context)
 

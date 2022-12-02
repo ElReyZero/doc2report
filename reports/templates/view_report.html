@@ -1,22 +1,21 @@
 {% extends 'base.html'%}
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-8">
-            <p>Report: {{report.name}}</p>
+            <p>Report name: {{report.name}}</p>
             {% if documents %}
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Document Name</th>
-                        <th scope="col">Type</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 {% for document in documents %}
                 <tr>
                     <td>{{document.name}}</td>
-                    <td>{{document.doc_type}}</td>
                     <td>
                         <div class="btn-group">
                             <form action="{% url 'view_document' report.id document.id %}" method="post">
@@ -37,24 +36,22 @@
             <p>No documents found</p>
             {% endif %}
             <div class="row">
-                {% if documents|length < 3%} <form action="{% url 'upload_document' report.id %}" method="post">
-                    {% csrf_token %}
-                    <div class="col">
-                        <p><input class="btn btn-primary" type="submit" value="Add Document" /></p>
-                    </div>
-                    </form>
-                    {% endif %}
+                <div class="col">
+                    <p><button class="btn btn-primary" type="submit" value="Add Documents"
+                            onclick="location.href = 'documents'">
+                            Add Documents</button>
+                    </p>
+                </div>
             </div>
         </div>
         <div class="col">
-            {% if report.can_generate %}
+            {% if report.can_generate and documents %}
             <br><br>
-            <form action="{% url 'view_report' report.id %}" method="post">
-                {% csrf_token %}
-                <div class="col">
-                    <p><input class="btn btn-primary" type="submit" value="Generate Report" /></p>
-                </div>
-            </form>
+            <div class="col">
+                <p><button class="btn btn-primary" type="button" value="Generate Report"
+                        onclick="location.href = 'generate'">
+                        Generate Report</button></p>
+            </div>
             {% endif %}
         </div>
     </div>
