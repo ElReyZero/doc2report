@@ -1,5 +1,6 @@
 from configparser import ConfigParser, ParsingError
 import os
+import openai
 
 class ConfigError(Exception):
     """
@@ -72,6 +73,20 @@ def get_config():
         except ValueError:
             _error_incorrect(key, 'Database', file)
 
+    _check_section(config, "OpenAI", file)
+    try:
+        openai.organization = config["OpenAI"]["org_id"]
+    except KeyError:
+        _error_missing("org_id", 'OpenAI', file)
+    except ValueError:
+        _error_incorrect("org_id", 'OpenAI', file)
+
+    try:
+        openai.api_key = config["OpenAI"]["api_key"]
+    except KeyError:
+        _error_missing("api_key", 'OpenAI', file)
+    except ValueError:
+        _error_incorrect("api_key", 'OpenAI', file)
 
 def _check_section(config, section, file):
     if section not in config:

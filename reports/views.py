@@ -7,7 +7,7 @@ from .models import Report
 from documents.models import Document
 from .forms import NewReportForm
 from .logic.pdfscanner import extractText
-from .logic.nlp import predict_filters_sentences
+from .logic.nlp import predict_page
 # Create your views here.
 
 
@@ -45,6 +45,11 @@ def view_report(request, report_pk):
             return redirect("user_reports")
         else:
             documents = Document.objects.filter(report=report)
+            for document in documents:
+                text = extractText(document.docfile.path)
+                document.doc_page_length = len(text)
+                document.save()
+                result = predict_page(text)
             """document = Document.objects.get(id=report.document.id)
             text = extractText(document.docfile.path)
             document.doc_page_length = len(text)

@@ -1,0 +1,13 @@
+{
+    "pets": [
+        "Are pets allowed?",
+        "What are the pet restrictions?"
+    ],
+    "smoking": [
+        "Is smoking allowed?",
+        "What are the smoking restrictions?"
+    ],
+    "rental": [
+        "What is the rental policy?"
+    ]
+}
