@@ -1,8 +1,18 @@
-from filter_questions import get_questions_from_filter
+from filter_questions import get_questions_from_filter, get_question_dict
+import copy
 import openai
 import re
 
-QUESTIONS = []
+def get_question_tracker():
+    question_dict = get_question_dict()
+    tracker = copy.deepcopy(question_dict)
+    for key, value in tracker.items():
+        if type(value) == list:
+            tracker[key] = [False for _ in range(len(value))]
+        elif type(value) == dict:
+            for sub_key, sub_value in value.items():
+                tracker[key][sub_key] = [False for _ in range(len(sub_value))]
+    return tracker
 
 def get_question(text, questions):
     question_text = ""

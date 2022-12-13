@@ -1,5 +1,5 @@
 {
-    "bylaw": {
+    "bylaws": {
         "pets": [
             "Are pets allowed?",
             "what the number of pets allowed?",
@@ -28,7 +28,7 @@
             "What type of BBQ is allowed? "
         ]
     },
-    "strata minute": {
+    "minutes": {
         "Move in/out Fees": [
             "Is there a fee to move in or move out?",
             "What is the notice required moving in or move out?",
