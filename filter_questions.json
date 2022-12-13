@@ -1,7 +1,7 @@
 {
     "pets": [
         "Are pets allowed?",
-        "Number of pets allowed?",
+        "what the number of pets allowed?",
         "What type of pets are allowed?",
         "What are the pet restrictions?",
         "Is there a vicious breed restriction? And if so what breeds are considered 'vicious'?"
@@ -10,7 +10,7 @@
         "Is smoking allowed?",
         "Is smoking allowed insuite?",
         "Is smoking allowed only on balconies?",
-        "Where is smoking allowed in the building? (i.e. common areas, balconies, etc.)",
+        "Where is smoking allowed in the building?",
         "Are there Marijuana restrictions?"
     ],
     "rental": [
@@ -27,9 +27,9 @@
         "What type of BBQ is allowed? "
     ],
     "Move in/out Fees" : [
-        "Is there Move in/out fees/costs?",
-        "What is the notice required moving in/out?",
-        "What is the move in/out times?"
+        "Is there a fee to move in or move out?",
+        "What is the notice required moving in or move out?",
+        "What is the move in and move out times?"
     ],
     "Strata Fee Increase" : [
         "Are the Strata fees increasing for the current year? If so, how much are the strata fees increasing and what's the percentage?"
