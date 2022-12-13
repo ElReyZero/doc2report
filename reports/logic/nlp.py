@@ -31,7 +31,7 @@ def predict_page(text, filters):
             frequency_penalty=0,
             presence_penalty=0
         )
-        response[filter] = prediction["choices"][0]["text"]
+        response[filter] = {prediction["choices"][0]["text"]}
     return response
 
 
