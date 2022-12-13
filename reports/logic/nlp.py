@@ -18,9 +18,15 @@ def get_question(text, questions):
     """
 
 def categorize_text(text):
+    text = re.sub(r'[^\w\s]', '', text) + "."
     return openai.Completion.create(
         model="text-davinci-003",
-        prompt=f"From the following categories, select the one that best describes the given text:\n1. Bylaws\n2. Stata Minutes\n3.Financial reports\n4. Other\n\n{text}",
+        prompt=f"""From the following categories, select only one from the following that best describes the given text:
+        \n1. Strata Bylaws
+        \n2. Stata Minutes
+        \n3.Financial reports
+        \nIf no categories apply, respond with: "Other"
+        \n\nContext:{text}""",
         temperature=0,
         max_tokens=256,
         top_p=1,
@@ -30,7 +36,7 @@ def categorize_text(text):
 
 def predict_page(text, filters):
     response = dict()
-    text = re.sub(r'[^\w\s]', '', text)
+    text = re.sub(r'[^\w\s]', '', text) + "."
     for filter in filters:
         questions = get_questions_from_filter(filter)
         prediction = openai.Completion.create(
@@ -44,6 +50,3 @@ def predict_page(text, filters):
         )
         response[filter] = prediction["choices"][0]["text"]
     return response
-
-
-
