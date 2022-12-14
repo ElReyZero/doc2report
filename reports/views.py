@@ -49,7 +49,7 @@ def view_report(request, report_pk):
                 text = extractText(document.docfile.path)
                 document.doc_page_length = len(text)
                 document.save()
-                result = predict_page(text)
+                #result = predict_page(text)
             """document = Document.objects.get(id=report.document.id)
             text = extractText(document.docfile.path)
             document.doc_page_length = len(text)

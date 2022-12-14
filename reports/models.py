@@ -7,7 +7,6 @@ class Report(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    predictions = models.JSONField(null=True)
     is_public = models.BooleanField(default=False)
     can_generate = models.BooleanField(default=False)
 

@@ -25,6 +25,8 @@
             //send all the form data along with the files:
             this.on("sendingmultiple", function (data, xhr, formData) {
                 formData.append("csrfmiddlewaretoken", jQuery("[name=csrfmiddlewaretoken]").val());
+                formData.append("category", jQuery("[name=category]").val());
+                console.log(jQuery("[name=category]").val())
             });
             this.on("successmultiple", function (files, response) {
                 // Gets triggered when the files have successfully been sent.
@@ -45,6 +47,7 @@
                 <br>
                 {{ message }}
                 <br><br>
+                {{form}}
                 <div class="dropzone" id="upload-form">
 
                 </div>

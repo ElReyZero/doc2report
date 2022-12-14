@@ -9,11 +9,9 @@ with open(os.getcwd() + "/filter_questions.json") as f:
 def get_question_dict():
     return question_dict
 
-def get_questions_from_filter(filter):
-    if filter == "all":
-        return list(chain.from_iterable([x for x in question_dict.values()]))
+def get_questions_from_filter(category, filter):
     try:
-        return question_dict[filter]
+        return question_dict[category][filter]
     except KeyError:
         return None
 

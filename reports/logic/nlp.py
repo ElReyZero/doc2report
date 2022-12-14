@@ -1,4 +1,5 @@
-from filter_questions import get_questions_from_filter, get_question_dict
+from .filter_questions import get_questions_from_filter, get_question_dict
+from threading import Thread
 import copy
 import openai
 import re
@@ -17,7 +18,7 @@ def get_question_tracker():
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{i+1}. {questions[i]}"
+        question_text += f"\n{i+1}. {questions[i]}|"
 
     return f"""
     Answer the following questions from the given context. If the questions are unrelated to the context, respond with: "Unrelated"\n\n
@@ -27,36 +28,29 @@ def get_question(text, questions):
     {question_text}
     """
 
-def categorize_text(text):
-    text = re.sub(r'[^\w\s]', '', text) + "."
-    return openai.Completion.create(
+def prediction_thread(text, questions, page_no, response_dict):
+    prediction = openai.Completion.create(
         model="text-davinci-003",
-        prompt=f"""From the following categories, select only one from the following that best describes the given text:
-        \n1. Strata Bylaws
-        \n2. Stata Minutes
-        \n3.Financial reports
-        \nIf no categories apply, respond with: "Other"
-        \n\nContext:{text}""",
+        prompt=get_question(text, questions),
         temperature=0,
         max_tokens=256,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
-    )["choices"][0]["text"]
+    )
+    response_dict[f"Page {page_no}"] = prediction["choices"][0]["text"].lstrip("\n")
 
-def predict_page(text, filters):
+def predict_text(text, category, filter):
     response = dict()
-    text = re.sub(r'[^\w\s]', '', text) + "."
-    for filter in filters:
-        questions = get_questions_from_filter(filter)
-        prediction = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=get_question(text, questions),
-            temperature=0,
-            max_tokens=256,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        response[filter] = prediction["choices"][0]["text"]
+    thread_list = list()
+    for page_no in range(len(text)):
+        page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
+        questions = get_questions_from_filter(category, filter)
+        if not questions:
+            continue
+        thread = Thread(target=prediction_thread, args=(page, questions, page_no+1, response))
+        thread.start()
+        thread_list.append(thread)
+    for thread in thread_list:
+        thread.join()
     return response

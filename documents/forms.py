@@ -1,5 +1,19 @@
 from django import forms
 
+
+class DocumentForm(forms.Form):
+    category = forms.ChoiceField(
+        label="Select a document category",
+        choices=[("Bylaws", "Strata Bylaws"),
+        ("Minute", "Strata Minute"),
+        ("Financial", "Financial Reports"),
+        ("Depreciation", "Depreciation Reports")],
+        required=True,
+        widget=forms.Select(),
+        error_messages={'required': 'Please select a document category.'}
+    )
+
+
 class ReportFilterForm(forms.Form):
 
     OPTIONS = [

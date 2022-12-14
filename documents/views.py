@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from reports.models import Report
 from accounts.models import User
 from .models import Document
-from .forms import ReportFilterForm
+from .forms import ReportFilterForm, DocumentForm
 
 @login_required
 def upload_document(request, report_pk):
@@ -14,16 +14,24 @@ def upload_document(request, report_pk):
     if request.method == 'POST':
         user = User.objects.get(id=request.user.id)
         report = Report.objects.get(id=report_pk)
-        report.can_generate = True
-        report.save()
-        for i in range(len(request.FILES)):
-            newdoc = Document(docfile=request.FILES[f"file[{i}]"], user=user, report=report)
-            newdoc.save()
-        # Redirect to the document list after POST
-        return redirect("view_report", report.id)# An empty, unbound form
+        form = DocumentForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            category = data["category"]
+            report.can_generate = True
+            report.save()
+            for i in range(len(request.FILES)):
+                newdoc = Document(docfile=request.FILES[f"file[{i}]"], user=user, report=report, category=category)
+                newdoc.save()
+            # Redirect to the document list after POST
+            return redirect("view_report", report.id)
+        else:
+            message = 'Invalid form!'
+    else:
+        form = DocumentForm()
     # Render list page with the documents and the form
     context = {'message': message,
-               'report_pk': report_pk}
+               'report_pk': report_pk, 'form': form}
     return render(request, 'upload_document.html', context)
 
 @login_required

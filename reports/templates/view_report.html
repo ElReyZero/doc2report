@@ -10,12 +10,14 @@
                 <thead>
                     <tr>
                         <th scope="col">Document Name</th>
+                        <th scope="col">Category</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 {% for document in documents %}
                 <tr>
                     <td>{{document.name}}</td>
+                    <td>{{document.category}}</td>
                     <td>
                         <div class="btn-group">
                             <form action="{% url 'view_document' report.id document.id %}" method="post">

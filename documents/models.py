@@ -11,6 +11,8 @@ class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     filters = models.JSONField(null=True)
+    category = models.CharField(max_length=255, null=True)
+    predictions = models.JSONField(null=True)
 
     def save(self, *args, **kwargs):
         self.name = self.docfile.name.split('/')[-1]
