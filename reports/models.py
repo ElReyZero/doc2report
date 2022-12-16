@@ -9,6 +9,7 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_public = models.BooleanField(default=False)
     can_generate = models.BooleanField(default=False)
+    already_generated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

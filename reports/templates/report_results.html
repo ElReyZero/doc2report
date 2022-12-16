@@ -7,7 +7,7 @@
     let url = window.location.origin;
 
     // Copy the text inside the text field
-    navigator.clipboard.writeText(url + "/reports/public/{{report.id}}");
+    navigator.clipboard.writeText(url + "/reports/public/{{report.id}}/results/");
     document.getElementById("copied-text").style.display = "block";
   }
 </script>
@@ -16,38 +16,42 @@
 <div class="row">
   <div class="col-md-8">
 
-    <h3>Restrictions Found in the Document:</h3>
+    <h3>Restrictions Found in the Report:</h3>
 
     <div class="accordion" id="accordionExample">
       {% for filter, values in results.items %}
+      <h4>{{filter}} Restrictions</h4>
+      {% for document_id, document_values in values.items %}
       <div class="card">
         <div class="card-header" id="heading{{filter}}">
           <h5 class="mb-0">
             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{filter}}"
               aria-expanded="true" aria-controls="collapse{{filter}}">
-              {{filter}} Restrictions
+              {{document_values.name}}
             </button>
           </h5>
         </div>
 
         <div id="collapse{{filter}}" class="collapse show" aria-labelledby="heading{{filter}}">
           <div class="card-body">
-            {% if values %}
+            {% if document_values.predictions %}
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Sentence</th>
-                  <th scope="col">Prediction</th>
+                  <th scope="col">Filter</th>
+                  <th scope="col">Predictions</th>
                   <th scope="col">Page</th>
                 </tr>
               </thead>
               <tbody>
-                {% for value in values %}
-                <tr>
-                  <td>{{value.cleaned_sentence}}</td>
-                  <td>{{value.predicted}}</td>
-                  <td>{{value.page}}</td>
-                </tr>
+                {% for filter, predictions in document_values.predictions.items %}
+                  {% for page, result in predictions.items %}
+                    <tr>
+                      <td>{{filter}}</td>
+                      <td style="white-space: pre-line">{{result}}</td>
+                      <td>{{page}}</td>
+                    </tr>
+                  {% endfor %}
                 {% endfor %}
               </tbody>
             </table>
@@ -58,6 +62,7 @@
         </div>
       </div>
       {% endfor %}
+      {% endfor %}
     </div>
   </div>
   <div class="col-md-4">
@@ -65,9 +70,11 @@
     <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
       Document name: {{report.document.name}}
       Number of pages: {{report.document.doc_page_length}}
-      <button type="text" class="btn btn-primary" value="" onClick="window.open('{{report.document.docfile.url}}', '_blank')" data-toggle="tooltip"
-      data-placement="bottom" title="View Document" id="view-doc-btn" style="margin-top: 5px">View Document</button>
     </div>
+    {% if user.id == report.user.id %}
+      <button type="text" class="btn btn-primary" value="" onClick="window.open('{{report_url}}', '_blank')" data-toggle="tooltip"
+        data-placement="bottom" title="View Report" id="view-doc-btn" style="margin-top: 5px">View Report</button>
+    {% endif %}
     {% if report.is_public %}
     <br>
     <h3>Share this report!</h3>

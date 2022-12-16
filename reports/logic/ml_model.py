@@ -21,7 +21,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
         questions = get_questions_from_filter(category, filter)
     else:
         questions = custom_questions
-    response_dict[filter] = dict()
+    response_dict[filter.capitalize()] = dict()
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
         prediction = openai.Completion.create(
@@ -34,11 +34,14 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             presence_penalty=0
         )
         prediction = prediction["choices"][0]["text"].lstrip("\n")
-        if prediction == "Unrelated":
+        # Skip if the prediction is unrelated or if the prediction is already in the response dict
+        if prediction == "Unrelated" or prediction == "Unrelated.":
             continue
-        elif prediction in response_dict[filter].values():
+        elif prediction in response_dict[filter.capitalize()].values():
             continue
-        response_dict[filter][f"Page {page_no}"] = prediction
+        elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
+            continue
+        response_dict[filter.capitalize()][f"Page {page_no}"] = prediction.replace("|", " ")
 
 def predict_text(text, category, filters):
     response = dict()

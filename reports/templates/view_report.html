@@ -55,6 +55,11 @@
                         Generate Report</button></p>
             </div>
             {% endif %}
+            {% if report.already_generated %}
+            <p><button class="btn btn-primary" type="button" value="View Report Results"
+                    onclick="location.href = 'results'">
+                    View Report Results</button></p>
+            {% endif %}
         </div>
     </div>
 </div>
