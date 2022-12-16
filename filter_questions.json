@@ -108,27 +108,33 @@
             "Do Annual fire inspections happen yearly?"
         ]
     },
-    "financial": [
-        "What is the total budget?",
-        "What is the maintenance budget? (general repairs and maintenance)",
-        "What is the insurance budget?",
-        "What is the utilities budget?",
-        "Is there cash in reserve?",
-        "How much cash is in reserve?",
-        "What is the landscaping budget?",
-        "Is there a yearly contingency fund contribution?",
-        "Is there budget for window cleaning?",
-        "Is there budget for pest control?",
-        "Is there budget for dryer duct cleaning?",
-        "Are there separate line items for many budget items or are they all included in a general larger budget item?"
-    ],
-    "depreciation": [
-        "When was the Depreciation Report report done?"
-    ],
-    "other": [
-        "Does the strata have quiet hours?",
-        "Are Christmas Trees and Holiday decorations allowed?",
-        "Is Air Conditioning allowed in the strata unit?",
-        "What is the Strata's responsibility to repair and insure?"
-    ]
+    "financial": {
+        "financial": [
+            "What is the total budget?",
+            "What is the maintenance budget? (general repairs and maintenance)",
+            "What is the insurance budget?",
+            "What is the utilities budget?",
+            "Is there cash in reserve?",
+            "How much cash is in reserve?",
+            "What is the landscaping budget?",
+            "Is there a yearly contingency fund contribution?",
+            "Is there budget for window cleaning?",
+            "Is there budget for pest control?",
+            "Is there budget for dryer duct cleaning?",
+            "Are there separate line items for many budget items or are they all included in a general larger budget item?"
+        ]
+    },
+    "depreciation": {
+        "depreciation": [
+            "When was the Depreciation Report report done?"
+        ]
+    },
+    "other": {
+        "other": [
+            "Does the strata have quiet hours?",
+            "Are Christmas Trees and Holiday decorations allowed?",
+            "Is Air Conditioning allowed in the strata unit?",
+            "What is the Strata's responsibility to repair and insure?"
+        ]
+    }
 }

@@ -5,9 +5,9 @@ from django.core.exceptions import ValidationError
 from accounts.models import User
 from .models import Report
 from documents.models import Document
-from .forms import NewReportForm
+from .forms import NewReportForm, GenerateReportFilterForm
 from .logic.pdfscanner import extractText
-from .logic.nlp import predict_page
+from .logic.ml_model import predict_text
 # Create your views here.
 
 
@@ -22,19 +22,22 @@ def user_reports(request):
 
 @login_required
 def create_report(request):
-    if request.method == 'POST':
-        form = NewReportForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user = User.objects.get(id=request.user.id)
-            report = Report(name=data["name"], user=user)
-            report.save()
-            return redirect("user_reports")
-        return render(request, 'create_report.html', {'form': form})
-    else:
-        form = NewReportForm()
-        context = {'form': form }
-        return render(request, "create_report.html", context)
+    try:
+        if request.method == 'POST':
+            form = NewReportForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                user = User.objects.get(id=request.user.id)
+                report = Report(name=data["name"], user=user)
+                report.save()
+                return redirect("user_reports")
+            return render(request, 'create_report.html', {'form': form})
+        else:
+            form = NewReportForm()
+            context = {'form': form }
+            return render(request, "create_report.html", context)
+    except (ValidationError, Report.DoesNotExist):
+        return redirect("user_reports")
 
 
 @login_required
@@ -68,7 +71,45 @@ def view_report(request, report_pk):
             report.save()
             return render(request, "generated_report.html", context={'report': report, 'results': results})"""
             return render(request, "view_report.html", context={'report': report , 'documents': documents})
-    except ValidationError:
+    except (ValidationError, Report.DoesNotExist):
+        return redirect("user_reports")
+
+@login_required
+def generate_report(request, report_pk):
+    error_msg = None
+    try:
+        report = Report.objects.get(id=report_pk)
+        documents = Document.objects.filter(report=report)
+        category_list = list()
+        for document in documents:
+            category_list.append(document.category)
+        category_list = list(set(category_list))
+        if request.method == 'POST':
+            form = GenerateReportFilterForm(request.POST, categories=category_list)
+            if form.is_valid():
+                data = form.cleaned_data
+                for category, filters in data.items():
+                    if len(filters == 0):
+                        continue
+                    elif category != "custom_question":
+                        category_documents = documents.filter(category=category)
+                    else:
+                        category_documents = documents
+                    for document in category_documents:
+                        text = extractText(document.docfile.path)
+                        results = predict_text(text, category, filters)
+                        report.predictions = dumps(results)
+                        report.save()
+            else:
+                error_msgs = form.errors
+                error_msg = "Errors found:\n"
+                for msg in error_msgs.values():
+                    error_msg += msg.as_text()
+        else:
+            form = GenerateReportFilterForm()
+
+        return render(request, "generate_report.html", context={'report': report, 'documents': documents, 'form': form, 'error_msg': error_msg, 'categories': category_list})
+    except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 
 @login_required
@@ -79,7 +120,7 @@ def delete_report(request, report_pk):
             report.delete()
             return redirect("user_reports")
         return redirect("user_reports")
-    except ValidationError:
+    except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 
 @login_required
@@ -91,7 +132,7 @@ def change_report_visibility(request, report_pk):
             report.save()
             return redirect("generated_report", pk=report_pk)
         return redirect("user_reports")
-    except ValidationError:
+    except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 
 def public_reports(request, report_pk):
@@ -102,5 +143,5 @@ def public_reports(request, report_pk):
 
         ## TODO: Add a 404 page
         return redirect("user_reports")
-    except ValidationError:
+    except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")

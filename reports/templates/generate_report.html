@@ -1,0 +1,90 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<script>
+    let allChecked = false;
+    function showLoader() {
+        let loader = document.getElementById("loader");
+        loader.style.display = "flex";
+        loader.style.alignItems = "center";
+        loader.flexDirection = "row";
+    }
+
+    function checkAll() {
+        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let checkAllBtn = document.getElementById("checkAll");
+        if (!allChecked) {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+            });
+            allChecked = true;
+            checkAllBtn.value = "Deselect All";
+        } else {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+            allChecked = false;
+            checkAllBtn.value = "Select All";
+        }
+    }
+</script>
+
+<h1>Generate Report</h1>
+<p>Please choose the filters you would want to apply to your report</p>
+<input id="checkAll" type="button" class="btn btn-primary" value="Select All" onclick="checkAll()" />
+<br><br>
+<form action="{% url 'generate_report' report.id %}" method="post" enctype="multipart/form-data"
+    onsubmit="showLoader()">
+    {% csrf_token %}
+    <div class="row">
+        {% if 'Bylaws' in categories %}
+        <div class="col">
+            <h3>{{ form.bylaws.label }}</h3>
+            {{ form.bylaws }}
+        </div>
+        {% endif %}
+        {% if 'Minute' in categories %}
+        <div class="col">
+            <h3>{{ form.minutes.label }}</h3>
+            {{ form.minutes }}
+        </div>
+        {% endif %}
+        <div class="col">
+            {% if 'Financial' in categories %}
+            <h3>{{ form.financial.label }}</h3>
+            {{ form.financial }}
+            {% endif %}
+            {% if 'Depreciation' in categories %}
+            <h3>{{ form.depreciation.label }}</h3>
+            {{ form.depreciation }}
+            {% endif %}
+        </div>
+        <div class="col">
+            <h3>Custom Questions</h3>
+            <p style="white-space: pre-line">You can add custom questions to your report generation! (Optional)
+                If you do, please use the following format:
+                1. Question 1
+                2. Question 2
+                3. Question 3
+                ...
+            </p>
+            {{form.custom_question}}
+        </div>
+
+        <div class="col">
+            <p><input class="btn btn-primary" type="button" value="Go Back"
+                    onclick="location.href = '{% url 'view_report' report.id %}'" /></p>
+            <p><input class="btn btn-success" type="submit" value="Generate Report" /></p>
+            <div id="loader" style="display: none;">
+                <div style="padding-right: 7px; white-space: pre-line;">Generating Report...
+                    This could take a few seconds</div>
+                <img src="/static/loading-gif.gif" height="25px" width="25px" />
+            </div>
+            {% if error_msg %}
+            <p style="white-space: pre-line">{{ error_msg }}</p>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+{% endblock %}
