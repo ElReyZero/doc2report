@@ -101,8 +101,11 @@ class GenerateReportFilterForm(forms.Form):
                 if len(question) != 2:
                     raise forms.ValidationError("Invalid custom question format")
                 question = question[1].strip()
-                if question[-1] != "?":
-                    question += "?"
+                try:
+                    if question[-1] != "?":
+                        question += "?"
+                except IndexError:
+                    raise forms.ValidationError("Invalid custom question format")
                 custom_question_cleaned.append(question)
             cleaned_data["custom_question"] = custom_question_cleaned
         return cleaned_data

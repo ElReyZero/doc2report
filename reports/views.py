@@ -1,4 +1,4 @@
-from json import dumps, loads
+from json import loads
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -7,7 +7,7 @@ from .models import Report
 from documents.models import Document
 from .forms import NewReportForm, GenerateReportFilterForm
 from .logic.pdfscanner import extractText
-from .logic.ml_model import predict_text
+from .logic.document_processing import process_report
 # Create your views here.
 
 
@@ -97,11 +97,7 @@ def generate_report(request, report_pk):
                         category_documents = documents
                     else:
                         continue
-                    for document in category_documents:
-                        text = extractText(document.docfile.path)
-                        results = predict_text(text, category, filters)
-                        document.predictions = dumps(results)
-                        document.save()
+                    process_report(category_documents, category, filters)
             else:
                 error_msgs = form.errors
                 error_msg = "Errors found:\n"
