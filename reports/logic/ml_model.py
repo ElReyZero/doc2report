@@ -41,7 +41,13 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             continue
         elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
             continue
-        response_dict[filter.capitalize()][f"Page {page_no}"] = prediction.replace("|", " ")
+        prediction = prediction.replace("|", " ").split("\n")
+        pred_str = ""
+        for question in prediction:
+            if not "unrelated" in question.lower():
+                pred_str += question + "\n"
+        prediction = pred_str
+        response_dict[filter.capitalize()][f"Page {page_no}"] = prediction
 
 def predict_text(text, category, filters):
     response = dict()
