@@ -89,17 +89,19 @@ def generate_report(request, report_pk):
             if form.is_valid():
                 data = form.cleaned_data
                 for category, filters in data.items():
-                    if len(filters == 0):
+                    if len(filters) == 0:
                         continue
                     elif category != "custom_question":
-                        category_documents = documents.filter(category=category)
-                    else:
+                        category_documents = documents.filter(category=category.capitalize())
+                    elif category == "custom_question" and len(filters) > 0:
                         category_documents = documents
+                    else:
+                        continue
                     for document in category_documents:
                         text = extractText(document.docfile.path)
                         results = predict_text(text, category, filters)
-                        report.predictions = dumps(results)
-                        report.save()
+                        document.predictions = dumps(results)
+                        document.save()
             else:
                 error_msgs = form.errors
                 error_msg = "Errors found:\n"

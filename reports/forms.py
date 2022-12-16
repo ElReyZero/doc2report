@@ -61,7 +61,7 @@ class GenerateReportFilterForm(forms.Form):
         required=False
     )
 
-    minutes = forms.MultipleChoiceField(
+    minute = forms.MultipleChoiceField(
         choices=minutes_options,
         widget=forms.CheckboxSelectMultiple(),
         label="Strata Minute Restrictions",
@@ -93,16 +93,16 @@ class GenerateReportFilterForm(forms.Form):
         custom_question = cleaned_data.get("custom_question")
         if not bylaws and not minutes and not financial and not depreciation and custom_question == "":
             raise forms.ValidationError("You must select at least one filter or ask a custom question")
-
-        custom_question = custom_question.replace("\r", "").split("\n")
-        custom_question_cleaned = []
-        for question in custom_question:
-            question = re.split("\d\.", question)
-            if len(question) != 2:
-                raise forms.ValidationError("Invalid custom question format")
-            question = question[1].strip()
-            if question[-1] != "?":
-                question += "?"
-            custom_question_cleaned.append(question)
-        cleaned_data["custom_question"] = custom_question_cleaned
+        if custom_question != "":
+            custom_question = custom_question.replace("\r", "").split("\n")
+            custom_question_cleaned = []
+            for question in custom_question:
+                question = re.split("\d\.", question)
+                if len(question) != 2:
+                    raise forms.ValidationError("Invalid custom question format")
+                question = question[1].strip()
+                if question[-1] != "?":
+                    question += "?"
+                custom_question_cleaned.append(question)
+            cleaned_data["custom_question"] = custom_question_cleaned
         return cleaned_data
