@@ -2,7 +2,6 @@
 {% block content %}
 
 <script>
-    let allChecked = false;
     function showLoader() {
         let loader = document.getElementById("loader");
         loader.style.display = "flex";
@@ -10,6 +9,19 @@
         loader.flexDirection = "row";
     }
 
+    function showHelp() {
+        let help = document.getElementById("question-help");
+        let questionHelpBtn = document.getElementById("question-help-btn");
+        if (help.style.display === "block") {
+            help.style.display = "none";
+            questionHelpBtn.value = "Show Formatting Help";
+            return;
+        }
+        help.style.display = "block"
+        questionHelpBtn.value = "Hide Formatting Help";
+    }
+
+    let allChecked = false;
     function checkAll() {
         let checkboxes = document.querySelectorAll('input[type="checkbox"]');
         let checkAllBtn = document.getElementById("checkAll");
@@ -60,11 +72,16 @@
             {% endif %}
         </div>
         <div class="col">
-            <h3>Custom Questions</h3>
-            <p style="white-space: pre-line">You can add custom questions to your report generation! (Optional)
-                If you do, please use the following format:
-                1. Question 1
-                2. Question 2
+            <h3>Custom Questions <br><input id="question-help-btn" type="button" class="btn btn-primary"
+                    value="Show Formatting Help" onclick="showHelp()"></input></h3>
+            <p id="question-help" style="white-space: pre-line; display: none;">- You can add custom questions to your
+                report generation! (Optional)
+                - If you do, please use the following format, don't forget to include the category you want the question to be asked to. Include Parenthesis!
+                - If the category is not included, the questions are gonna be asked to all documents
+
+                Examples:
+                1. Question 1 (Bylaws)
+                2. Question 2 (Minutes)
                 3. Question 3
                 ...
             </p>
@@ -86,5 +103,11 @@
         </div>
     </div>
 </form>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 {% endblock %}

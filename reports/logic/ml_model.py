@@ -17,7 +17,7 @@ def get_question(text, questions):
     """
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None):
-    if category != "custom_question":
+    if not custom_questions:
         questions = get_questions_from_filter(category, filter)
     else:
         questions = custom_questions
@@ -48,13 +48,23 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 pred_str += question + "\n"
         prediction = pred_str
         response_dict[filter.capitalize()][f"Page {page_no}"] = prediction
+    if category == "custom_question" and response_dict[filter.capitalize()] == dict():
+        response_dict[filter.capitalize()] = {"N/A": "No answer found"}
+
+def ennumerate_custom_questions(questions):
+    question_str = ""
+    for i in range(len(questions[0])):
+        question_str += f"{i+1}. {questions[0][i]}\n"
+    question_str = question_str[:-1]
+    return question_str
+
 
 def predict_text(text, category, filters):
     response = dict()
     thread_list = list()
     for filter in filters:
-        if category == "custom_question":
-            thread = Thread(target=prediction_thread, args=(text, category, filter, response), kwargs={"custom_questions": filters})
+        if type(filter) == dict:
+            thread = Thread(target=prediction_thread, args=(text, category, f"Custom Questions:\n{ennumerate_custom_questions(list(filter.values()))}", response), kwargs={"custom_questions": list(filter.values())})
         else:
             thread = Thread(target=prediction_thread, args=(text, category, filter, response))
         thread.start()

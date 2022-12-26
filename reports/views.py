@@ -66,19 +66,34 @@ def generate_report(request, report_pk):
             form = GenerateReportFilterForm(request.POST, categories=category_list)
             if form.is_valid():
                 data = form.cleaned_data
+                if "custom_question" in data.keys():
+                    for question in data["custom_question"]:
+                        for category in data.keys():
+                            if f"({category})" in question.lower():
+                                question_str = question.replace(f"({category})", "").replace(f"({category.capitalize()})", "").rstrip()
+                                if question_str[-1] != "?":
+                                    question_str += "?"  # Add question mark if not present
+                                try:
+                                    questions = data[category][-1]["custom_question"]
+                                    questions.append(question_str)
+                                except (TypeError, IndexError):
+                                    data[category].append({"custom_question": [question_str]})
+                            elif question.rstrip()[-1] != ")" and category != "custom_question":
+                                try:
+                                    questions = data[category][-1]["custom_question"]
+                                    questions.append(question)
+                                except (TypeError, IndexError):
+                                    data[category].append({"custom_question": [question]})
+                    del data["custom_question"]
                 for category, filters in data.items():
                     if len(filters) == 0:
                         continue
-                    elif category != "custom_question":
-                        category_documents = documents.filter(category=category.capitalize())
-                    elif category == "custom_question" and len(filters) > 0:
-                        category_documents = documents
                     else:
-                        continue
+                        category_documents = documents.filter(category=category.capitalize())
                     process_report(category_documents, category, filters)
-                    report.already_generated = True
-                    report.save()
-                    return redirect("view_report_predictions", report_pk=report.id)
+                report.already_generated = True
+                report.save()
+                return redirect("view_report_predictions", report_pk=report.id)
             else:
                 error_msgs = form.errors
                 error_msg = "Errors found:\n"

@@ -17,7 +17,6 @@
   <div class="col-md-8">
 
     <h3>Restrictions Found in the Report:</h3>
-
     <div class="accordion" id="accordionExample">
       {% for filter, values in results.items %}
       <h4>{{filter}} Restrictions</h4>
@@ -47,7 +46,7 @@
                 {% for filter, predictions in document_values.predictions.items %}
                   {% for page, result in predictions.items %}
                     <tr>
-                      <td>{{filter}}</td>
+                      <td style="white-space: pre-line">{{filter}}</td>
                       <td style="white-space: pre-line">{{result}}</td>
                       <td>{{page}}</td>
                     </tr>

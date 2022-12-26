@@ -102,7 +102,7 @@ class GenerateReportFilterForm(forms.Form):
                     raise forms.ValidationError("Invalid custom question format")
                 question = question[1].strip()
                 try:
-                    if question[-1] != "?":
+                    if question[-1] != "?" and question[-1] != ")":
                         question += "?"
                 except IndexError:
                     raise forms.ValidationError("Invalid custom question format")
