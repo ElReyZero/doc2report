@@ -9,6 +9,16 @@
         loader.flexDirection = "row";
     }
 
+    function calculatePrice (){
+        let hidden_field = document.getElementById("id_price_calculation");
+        hidden_field.value = "true";
+    }
+
+    function removePriceCalc (){
+        let hidden_field = document.getElementById("id_price_calculation");
+        hidden_field.value = "false";
+    }
+
     function showHelp() {
         let help = document.getElementById("question-help");
         let questionHelpBtn = document.getElementById("question-help-btn");
@@ -86,17 +96,22 @@
                 ...
             </p>
             {{form.custom_question}}
+            {{form.price_calculation.as_hidden}}
         </div>
 
         <div class="col">
             <p><input class="btn btn-primary" type="button" value="Go Back"
                     onclick="location.href = '{% url 'view_report' report.id %}'" /></p>
-            <p><input class="btn btn-success" type="submit" value="Generate Report" /></p>
+            <p><input class="btn btn-warning" type="submit" value="Calculate price" onclick="calculatePrice()"> </p>
+            <p><input class="btn btn-success" type="submit" value="Generate Report" onclick="removePriceCalc()"/></p>
             <div id="loader" style="display: none;">
                 <div style="padding-right: 7px; white-space: pre-line;">Generating Report...
                     This could take a few seconds or minutes depending on the length of the documents</div>
                 <img src="/static/loading-gif.gif" height="25px" width="25px" />
             </div>
+            {% if prices_msg %}
+            <p style="white-space: pre-line">{{ prices_msg }}</p>
+            {% endif %}
             {% if error_msg %}
             <p style="white-space: pre-line">{{ error_msg }}</p>
             {% endif %}

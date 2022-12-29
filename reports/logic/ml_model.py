@@ -16,40 +16,46 @@ def get_question(text, questions):
     {question_text}
     """
 
-def prediction_thread(text, category, filter, response_dict, custom_questions=None):
+def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
     if not custom_questions:
         questions = get_questions_from_filter(category, filter)
     else:
         questions = custom_questions
     response_dict[filter.capitalize()] = dict()
+    if price_calculation:
+        response_dict[filter.capitalize()] = 0
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
-        prediction = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=get_question(page, questions),
-            temperature=0,
-            max_tokens=256,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        prediction = prediction["choices"][0]["text"].lstrip("\n")
-        # Skip if the prediction is unrelated or if the prediction is already in the response dict
-        if prediction == "Unrelated" or prediction == "Unrelated.":
-            continue
-        elif prediction in response_dict[filter.capitalize()].values():
-            continue
-        elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
-            continue
-        prediction = prediction.replace("|", " ").split("\n")
-        pred_str = ""
-        for question in prediction:
-            if not "unrelated" in question.lower():
-                pred_str += question + "\n"
-        prediction = pred_str
-        response_dict[filter.capitalize()][f"Page {page_no}"] = prediction
-    if category == "custom_question" and response_dict[filter.capitalize()] == dict():
-        response_dict[filter.capitalize()] = {"N/A": "No answer found"}
+        if not price_calculation:
+            prediction = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=get_question(page, questions),
+                temperature=0,
+                max_tokens=256,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0
+            )
+            prediction = prediction["choices"][0]["text"].lstrip("\n")
+            # Skip if the prediction is unrelated or if the prediction is already in the response dict
+            if prediction == "Unrelated" or prediction == "Unrelated.":
+                continue
+            elif prediction in response_dict[filter.capitalize()].values():
+                continue
+            elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
+                continue
+            prediction = prediction.replace("|", " ").split("\n")
+            pred_str = ""
+            for question in prediction:
+                if not "unrelated" in question.lower():
+                    pred_str += question + "\n"
+            prediction = pred_str
+            response_dict[filter.capitalize()][f"Page {page_no}"] = prediction
+            if category == "custom_question" and response_dict[filter.capitalize()] == dict():
+                response_dict[filter.capitalize()] = {"N/A": "No answer found"}
+        else:
+            token_amount = len(get_question(page, questions)) / 4
+            response_dict[filter.capitalize()] += token_amount
 
 def ennumerate_custom_questions(questions):
     question_str = ""
@@ -59,14 +65,14 @@ def ennumerate_custom_questions(questions):
     return question_str
 
 
-def predict_text(text, category, filters):
+def predict_text(text, category, filters, price_calculation=False):
     response = dict()
     thread_list = list()
     for filter in filters:
         if type(filter) == dict:
-            thread = Thread(target=prediction_thread, args=(text, category, f"Custom Questions:\n{ennumerate_custom_questions(list(filter.values()))}", response), kwargs={"custom_questions": list(filter.values())})
+            thread = Thread(target=prediction_thread, args=(text, category, f"Custom Questions:\n{ennumerate_custom_questions(list(filter.values()))}", response), kwargs={"custom_questions": list(filter.values()), "price_calculation": price_calculation})
         else:
-            thread = Thread(target=prediction_thread, args=(text, category, filter, response))
+            thread = Thread(target=prediction_thread, args=(text, category, filter, response), kwargs={"price_calculation": price_calculation})
         thread.start()
         thread_list.append(thread)
     for thread in thread_list:

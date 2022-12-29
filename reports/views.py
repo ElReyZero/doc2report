@@ -55,6 +55,7 @@ def view_report(request, report_pk):
 @login_required
 def generate_report(request, report_pk):
     error_msg = None
+    prices_msg = None
     try:
         report = Report.objects.get(id=report_pk)
         documents = Document.objects.filter(report=report)
@@ -83,17 +84,32 @@ def generate_report(request, report_pk):
                                     questions = data[category][-1]["custom_question"]
                                     questions.append(question)
                                 except (TypeError, IndexError):
-                                    data[category].append({"custom_question": [question]})
+                                    try:
+                                        data[category].append({"custom_question": [question]})
+                                    except AttributeError:
+                                        continue
                     del data["custom_question"]
+                price_dict = dict()
                 for category, filters in data.items():
-                    if len(filters) == 0:
+                    try:
+                        if len(filters) == 0:
+                            continue
+                        else:
+                            category_documents = documents.filter(category=category.capitalize())
+                    except TypeError:
                         continue
+                    if data["price_calculation"]:
+                        prices = process_report(category_documents, category, filters, price_calculation=True)
+                        price_dict[category] = prices
                     else:
-                        category_documents = documents.filter(category=category.capitalize())
-                    process_report(category_documents, category, filters)
-                report.already_generated = True
-                report.save()
-                return redirect("view_report_predictions", report_pk=report.id)
+                        process_report(category_documents, category, filters)
+                if not data["price_calculation"]:
+                    report.already_generated = True
+                    report.save()
+                    return redirect("view_report_predictions", report_pk=report.id)
+                else:
+                    total_tokens = sum(price_dict.values())
+                    prices_msg = f"Estimated amount of tokens: {total_tokens}\nCost per 1k tokens: $0.02 USD\nEstimated report cost: ${round((total_tokens/1000)   *0.0200, 5)} USD"
             else:
                 error_msgs = form.errors
                 error_msg = "Errors found:\n"
@@ -102,7 +118,7 @@ def generate_report(request, report_pk):
         else:
             form = GenerateReportFilterForm()
 
-        return render(request, "generate_report.html", context={'report': report, 'documents': documents, 'form': form, 'error_msg': error_msg, 'categories': category_list})
+        return render(request, "generate_report.html", context={'report': report, 'documents': documents, 'form': form, 'error_msg': error_msg, 'categories': category_list, 'prices_msg': prices_msg})
     except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 

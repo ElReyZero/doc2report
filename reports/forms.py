@@ -84,6 +84,8 @@ class GenerateReportFilterForm(forms.Form):
 
     custom_question = forms.CharField(widget=forms.Textarea(), label="Custom Question", required=False)
 
+    price_calculation = forms.BooleanField(required=False)
+
     def clean(self):
         cleaned_data = self.cleaned_data
         bylaws = cleaned_data.get("bylaws")
