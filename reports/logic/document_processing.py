@@ -14,6 +14,8 @@ def process_document(document, category, filters, price_calculation=False, price
         document.already_scanned = True
         document.save()
     text = extractText(document.docfile.path)
+    document.doc_page_length = len(text)
+    document.save()
     results = predict_text(text, category, filters, price_calculation)
     if not price_calculation:
         document.predictions = dumps(results)

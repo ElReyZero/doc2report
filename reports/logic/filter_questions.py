@@ -1,6 +1,5 @@
 import json
 import os
-from itertools import chain
 
 with open(os.getcwd() + "/filter_questions.json") as f:
     question_dict = json.load(f)

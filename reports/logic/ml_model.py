@@ -1,4 +1,4 @@
-from .filter_questions import get_questions_from_filter, get_question_dict
+from .filter_questions import get_questions_from_filter
 from threading import Thread
 import openai
 import re

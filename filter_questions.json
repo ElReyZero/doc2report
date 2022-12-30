@@ -28,7 +28,7 @@
             "What type of BBQ is allowed? "
         ]
     },
-    "minutes": {
+    "minute": {
         "Move in/out Fees": [
             "Is there a fee to move in or move out?",
             "What is the notice required moving in or move out?",

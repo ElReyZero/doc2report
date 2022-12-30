@@ -19,6 +19,15 @@
         hidden_field.value = "false";
     }
 
+    function showPriceBreakdown() {
+        let breakdown = document.getElementById("breakdown-msg");
+        if (breakdown.style.display === "block") {
+            breakdown.style.display = "none";
+            return;
+        }
+        breakdown.style.display = "block";
+    }
+
     function showHelp() {
         let help = document.getElementById("question-help");
         let questionHelpBtn = document.getElementById("question-help-btn");
@@ -67,8 +76,8 @@
         {% endif %}
         {% if 'Minute' in categories %}
         <div class="col">
-            <h3>{{ form.minutes.label }}</h3>
-            {{ form.minutes }}
+            <h3>{{ form.minute.label }}</h3>
+            {{ form.minute }}
         </div>
         {% endif %}
         <div class="col">
@@ -111,6 +120,9 @@
             </div>
             {% if prices_msg %}
             <p style="white-space: pre-line">{{ prices_msg }}</p>
+            <input class="btn btn-primary" type="button" value="Detailed Price Breakdown"
+                onclick="showPriceBreakdown()"/>
+            <p style="white-space: pre-line; display: none;" id="breakdown-msg">{{breakdown_msg}}</p>
             {% endif %}
             {% if error_msg %}
             <p style="white-space: pre-line">{{ error_msg }}</p>

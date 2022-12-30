@@ -56,6 +56,7 @@ def view_report(request, report_pk):
 def generate_report(request, report_pk):
     error_msg = None
     prices_msg = None
+    breakdown_msg = None
     try:
         report = Report.objects.get(id=report_pk)
         documents = Document.objects.filter(report=report)
@@ -100,7 +101,10 @@ def generate_report(request, report_pk):
                         continue
                     if data["price_calculation"]:
                         prices = process_report(report, category_documents, category, filters, price_calculation=True)
-                        price_dict[category] = prices
+                        price_dict[category] = {"tokens": prices, "pages": 0, "requests": 0}
+                        for document in category_documents:
+                            price_dict[category]["pages"] += document.doc_page_length
+                            price_dict[category]["requests"] += document.doc_page_length * len(filters)
                     else:
                         process_report(report, category_documents, category, filters)
                 if not data["price_calculation"]:
@@ -108,8 +112,15 @@ def generate_report(request, report_pk):
                     report.save()
                     return redirect("view_report_predictions", report_pk=report.id)
                 else:
-                    total_tokens = sum(price_dict.values())
-                    prices_msg = f"Estimated amount of tokens: {total_tokens}\nCost per 1k tokens: $0.02 USD\nEstimated report cost: ${round((total_tokens/1000)   *0.0200, 5)} USD"
+                    total_tokens = 0
+                    for key, value in price_dict.items():
+                        total_tokens += value["tokens"]
+                    prices_msg = f"Price Calculation Details:\n"
+                    breakdown_msg = ""
+                    for key, value in price_dict.items():
+                        breakdown_msg += f"\n- Category: {key.capitalize()}\n    Tokens: {value['tokens']}\n    Pages: {value['pages']}\n    Requests: {value['requests']}\n"
+
+                    prices_msg += f"Total:\nEstimated amount of tokens: {total_tokens}\nCost per 1k tokens: $0.02 USD\nEstimated report cost: ${round((total_tokens/1000)   *0.0200, 5)} USD\n"
             else:
                 error_msgs = form.errors
                 error_msg = "Errors found:\n"
@@ -118,7 +129,7 @@ def generate_report(request, report_pk):
         else:
             form = GenerateReportFilterForm()
 
-        return render(request, "generate_report.html", context={'report': report, 'documents': documents, 'form': form, 'error_msg': error_msg, 'categories': category_list, 'prices_msg': prices_msg})
+        return render(request, "generate_report.html", context={'report': report, 'documents': documents, 'form': form, 'error_msg': error_msg, 'categories': category_list, 'prices_msg': prices_msg, 'breakdown_msg': breakdown_msg})
     except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 
