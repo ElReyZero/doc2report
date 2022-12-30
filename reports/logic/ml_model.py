@@ -6,13 +6,13 @@ import re
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{i+1}. {questions[i]}|"
+        question_text += f"\n{i+1}. {questions[i]}"
 
     return f"""
-    Answer the following questions from the given context. If the questions are unrelated to the context, respond with: "Unrelated"\n\n
-    Context:\n\n
-    {text}\n\n
-    Questions:\n
+    Context:\n
+    {text}\n
+    Answer the following questions. If the questions are unrelated to the context respond with: "Unrelated"\n
+    Questions:
     {question_text}
     """
 
@@ -50,7 +50,9 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 if not "unrelated" in question.lower():
                     pred_str += question + "\n"
             prediction = pred_str
-            response_dict[filter.capitalize()][f"Page {page_no}"] = prediction
+            if prediction == "":
+                continue
+            response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():
                 response_dict[filter.capitalize()] = {"N/A": "No answer found"}
         else:
