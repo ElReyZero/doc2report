@@ -10,6 +10,7 @@ class Report(models.Model):
     is_public = models.BooleanField(default=False)
     can_generate = models.BooleanField(default=False)
     already_generated = models.BooleanField(default=False)
+    status = models.CharField(max_length=255, default="Created")
 
     def __str__(self):
         return self.name

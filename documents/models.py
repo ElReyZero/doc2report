@@ -10,6 +10,7 @@ class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    already_scanned = models.BooleanField(default=False)
     filters = models.JSONField(null=True)
     category = models.CharField(max_length=255, null=True)
     predictions = models.JSONField(null=True)

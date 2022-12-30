@@ -99,10 +99,10 @@ def generate_report(request, report_pk):
                     except TypeError:
                         continue
                     if data["price_calculation"]:
-                        prices = process_report(category_documents, category, filters, price_calculation=True)
+                        prices = process_report(report, category_documents, category, filters, price_calculation=True)
                         price_dict[category] = prices
                     else:
-                        process_report(category_documents, category, filters)
+                        process_report(report, category_documents, category, filters)
                 if not data["price_calculation"]:
                     report.already_generated = True
                     report.save()
