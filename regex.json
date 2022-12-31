@@ -1,0 +1,81 @@
+{
+    "bylaws": {
+        "pets": [
+            "pet",
+            "pets",
+            "animal",
+            "animals",
+            "domestic",
+            "companion",
+            "tame",
+            "dog",
+            "cat",
+            "dogs",
+            "cats"
+        ],
+        "smoking": [
+            "smoke",
+            "cigarette",
+            "cigarettes",
+            "cigar",
+            "cigars",
+            "smoking",
+            "marijuana"
+        ],
+        "rental": [
+            "rent",
+            "renting",
+            "accommodation",
+            "airbnb",
+            "homeaway",
+            "vrbo.com"
+        ],
+        "BBQ": [
+            "barbecue",
+            "barbecues",
+            "bbq",
+            "grill",
+            "grills",
+            "barbeque",
+            "barbeques",
+            "grilling"
+        ],
+        "other": [
+            "Does the strata have quiet hours?",
+            "Are Christmas Trees and Holiday decorations allowed?",
+            "Is Air Conditioning allowed in the strata unit?",
+            "What is the Strata's responsibility to repair and insure?"
+        ]
+    },
+    "minute": {
+        "Move in/out Fees": [],
+        "Strata Fee Increase": [],
+        "elevator": [
+            "elevator",
+            "lift"
+        ],
+        "building exterior": [],
+        "leaks": [],
+        "mould": [],
+        "legal/civil resolutions": [],
+        "insurance": [],
+        "plumbing": [],
+        "roof": [],
+        "security": [],
+        "levy": [],
+        "windows": [],
+        "noise complaints": [],
+        "smoking complaints": [],
+        "engineer reports": [],
+        "insurance claims": [],
+        "renovation requests": [],
+        "pests": [],
+        "fire inspections": []
+    },
+    "financial": {
+        "financial": []
+    },
+    "depreciation": {
+        "depreciation": []
+    }
+}
