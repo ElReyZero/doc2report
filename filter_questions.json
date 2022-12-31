@@ -1,31 +1,37 @@
 {
     "bylaws": {
         "pets": [
-            "Are pets allowed?",
-            "what the number of pets allowed?",
-            "What type of pets are allowed?",
-            "What are the pet restrictions?",
-            "Is there a vicious breed restriction? And if so what breeds are considered 'vicious'?"
+			"Are pets allowed?",
+			"How many pets allowed?",
+			"What pets are allowed?",
+			"What are the pet restrictions?",
+			"Is there a vicious breed restriction? What breeds are considered vicious?"
         ],
         "smoking": [
             "Is smoking allowed?",
             "Is smoking allowed insuite?",
             "Is smoking allowed only on balconies?",
             "Where is smoking allowed in the building?",
-            "Are there Marijuana restrictions?"
+            "Are there Marijuana restrictions?What are they?"
         ],
         "rental": [
-            "Is there a limit to the amount of rented suites in the building? if so how many?",
+            "Is there a limit to rented suites in the building? How many?",
             "Is there a length of time of rental requirement?",
             "Are Short Term Rentals allowed? such as airbnb, vrbo",
             "Is a Bed and Breakfast allowed?",
             "Are there any restrictions to Short Term Rentals?",
-            "Are there any restrictions to Guests staying in the Short Term Rental?",
+            "Are there restrictions to Guests in the Short Term Rental?",
             "Are family members considered rentals?"
         ],
         "BBQ": [
             "Are BBQ's allowed?",
-            "What type of BBQ is allowed? "
+            "What type of BBQ is allowed?"
+        ],
+		"other": [
+            "Does the strata have quiet hours?",
+            "Are Christmas Trees and Holiday decorations allowed?",
+            "Is Air Conditioning allowed in the strata unit?",
+            "What is the Strata's responsibility to repair and insure?"
         ]
     },
     "minute": {
@@ -35,7 +41,7 @@
             "What is the move in and move out times?"
         ],
         "Strata Fee Increase": [
-            "Are the Strata fees increasing for the current year? If so, how much are the strata fees increasing and what's the percentage?"
+            "Are Strata fees increasing this year? How much and what's the percentage?"
         ],
         "elevator": [
             "What is the age of the elevator?",
@@ -43,11 +49,11 @@
             "Is the elevator out of order reported?"
         ],
         "building exterior": [
-            "Are there instances/reports of water ingress?",
-            "Are there planned Building exterior maintenance?And if so what is planned?"
+            "Are there reports of water ingress?",
+            "Is there planned Building exterior maintenance? What is planned?"
         ],
         "leaks": [
-            "Any reports of leaks within the building or between units? And if so, who was at fault with the leak?",
+            "Are there any reports of leaks in the building or between units? Who was at fault?",
             "Did the leak cause a Strata Insurance claim?",
             "What was the cause of the leak?"
         ],
@@ -55,7 +61,7 @@
             "Any reports of mould within suites?"
         ],
         "legal/civil resolutions": [
-            "Do the strata have any Legal or Civil suits?"
+            "Does the strata have any Legal or Civil suits?"
         ],
         "insurance": [
             "Strata insurance renewal?",
@@ -74,7 +80,7 @@
             "What is the age of the roof?"
         ],
         "security": [
-            "Any reports of break ins? If so, where? What?",
+            "Any reports of break ins? If so, Where? What?",
             "Has there been anything stolen?",
             "Did they fix what was broken into?",
             "Any reports of vandalism?"
@@ -83,7 +89,7 @@
             "Any upcoming levies?"
         ],
         "windows": [
-            "Any issues with the windows such as reports of broken seals or Fogged glass?",
+            "Are there issues with the windows? Broken seals or fogged glass?",
             "Is there any window replacement planned?"
         ],
         "noise complaints": [
@@ -96,13 +102,13 @@
             "Does the Engineer report have any comments?"
         ],
         "insurance claims": [
-            "Any instances of Insurance claims? If so, what was it for?"
+            "Are there insurance claims? What were they for?"
         ],
         "renovation requests": [
-            "Are there renovation requests? If so, were they approved?"
+            "Are there renovation requests? Were they approved?"
         ],
         "pests": [
-            "Any reports of pests such as mice; rats; ants; bed bugs within the building or units?"
+            "Are there reports of pests in the building or units? Mice, rats, ants, bed bugs?"
         ],
         "fire inspections": [
             "Do Annual fire inspections happen yearly?"
@@ -121,20 +127,12 @@
             "Is there budget for window cleaning?",
             "Is there budget for pest control?",
             "Is there budget for dryer duct cleaning?",
-            "Are there separate line items for many budget items or are they all included in a general larger budget item?"
+            "Are budget items separate or included in a larger item?"
         ]
     },
     "depreciation": {
         "depreciation": [
             "When was the Depreciation Report report done?"
-        ]
-    },
-    "other": {
-        "other": [
-            "Does the strata have quiet hours?",
-            "Are Christmas Trees and Holiday decorations allowed?",
-            "Is Air Conditioning allowed in the strata unit?",
-            "What is the Strata's responsibility to repair and insure?"
         ]
     }
 }

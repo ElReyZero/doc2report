@@ -11,7 +11,7 @@ def get_question(text, questions):
     return f"""
     Context:\n
     {text}\n
-    Answer the following questions. If the questions are unrelated to the context respond with: "Unrelated"\n
+    Answer the following questions in Q&A. If the questions are unrelated to the context respond with "Unrelated"\n
     Questions:
     {question_text}
     """

@@ -20,7 +20,8 @@ class GenerateReportFilterForm(forms.Form):
         ("pets", "Pet Restrictions"),
         ("rental", "Rental Restrictions"),
         ("BBQ", "Use of BBQ"),
-        ("smoking", "Smoking Restrictions")
+        ("smoking", "Smoking Restrictions"),
+        ("other", "Other Restrictions")
     ]
 
     minutes_options = [
