@@ -1,4 +1,4 @@
-from .filter_questions import get_questions_from_filter
+from .filter_questions import get_questions_from_filter, get_regex_list
 from threading import Thread
 import openai
 import re
@@ -6,12 +6,12 @@ import re
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{i+1}. {questions[i]}"
+        question_text += f"\n{i+1}. {questions[i]}|"
 
     return f"""
     Context:\n
     {text}\n
-    Answer the following questions in Q&A. If the questions are unrelated to the context respond with "Unrelated"\n
+    Answer the following questions. If the questions are unrelated to the context respond with "Unrelated"\n
     Questions:
     {question_text}
     """
@@ -26,7 +26,10 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
         response_dict[filter.capitalize()] = 0
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
-        if not price_calculation:
+        # Skip if the page doesn't contain any of the keywords
+        if not any(re.search(r"\b" + re.escape(x) + r"\b", page) for x in get_regex_list(category, filter)):
+            continue
+        elif not price_calculation:
             prediction = openai.Completion.create(
                 model="text-davinci-003",
                 prompt=get_question(page, questions),
@@ -50,7 +53,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 if not "unrelated" in question.lower():
                     pred_str += question + "\n"
             prediction = pred_str
-            if prediction == "":
+            if prediction == "" or prediction == "Answer:" or prediction == "Answer:\n":
                 continue
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():

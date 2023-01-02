@@ -65,10 +65,8 @@
     </div>
   </div>
   <div class="col-md-4">
-    <h3>Document details</h3>
+    <h3>Report details</h3>
     <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
-      Document name: {{report.document.name}}
-      Number of pages: {{report.document.doc_page_length}}
     </div>
     {% if user.id == report.user.id %}
       <button type="text" class="btn btn-primary" value="" onClick="window.open('{{report_url}}', '_blank')" data-toggle="tooltip"
