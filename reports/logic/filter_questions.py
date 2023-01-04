@@ -23,4 +23,4 @@ def get_regex_list(category, filter):
     try:
         return regex_dict[category][filter]
     except KeyError:
-        return None
+        return list()
