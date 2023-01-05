@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = cfg.DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "docs2report.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "doc2report.com", "127.0.0.1"]
 
 
 # Application definition
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'docs2report.wsgi.application'
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': cfg.DATABASE["name"],
         'USER': cfg.DATABASE["user"],
         'PASSWORD': cfg.DATABASE["password"],
