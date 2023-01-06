@@ -9,7 +9,7 @@ def get_blank_question(response):
         return True
     return False
 
-def filter_response(prediction, response_dict):
+def filter_response(prediction, response_dict, filter):
     # Skip if the prediction is unrelated or if the prediction is already in the response dict
     if prediction == "Unrelated" or prediction == "Unrelated.":
         return True
@@ -64,7 +64,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
-            filtered = filter_response(prediction, response_dict)
+            filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
                 pass
                 #continue
