@@ -63,7 +63,6 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
-            print(prediction)
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
                 pass
