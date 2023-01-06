@@ -48,7 +48,7 @@ def filter_response(prediction, response_dict, filter):
         try:
             if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
                 copy.remove(split_pred[i])
-        except IndexError:
+        except (IndexError, AttributeError):
             pass
     prediction = "\n".join(copy).strip()
     return prediction
