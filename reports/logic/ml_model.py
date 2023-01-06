@@ -85,7 +85,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
     if price_calculation:
         response_dict[filter.capitalize()] = 0
     for page_no in range(len(text)):
-        page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
+        page = re.sub(r'[^\w\s]+$', '', text[page_no]) + "."
         # Skip if the page doesn't contain any of the keywords
         if (not any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in get_regex_list(category, filter)) and category != "financial" and category != "depreciation") or any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in ["table of contents"]):
             continue
