@@ -15,7 +15,7 @@ def filter_response(prediction, response_dict, filter):
         return True
     elif prediction in response_dict[filter.capitalize()].values():
         return True
-    elif all([True if "Unrelated" in x or x == "" else False for x in re.split("Answer:", prediction)]) :
+    elif all([True if "Unrelated" in x or x == "" else False for x in prediction.split("\n")]) :
         return True
     prediction = prediction.replace("|", " ").split("\n")
     pred_str = ""
@@ -25,6 +25,16 @@ def filter_response(prediction, response_dict, filter):
     prediction = pred_str
     if get_blank_question(prediction):
         return True
+
+    split_pred = prediction.split("\n")
+
+    for i in range(len(split_pred)):
+        split_pred[i] = split_pred[i].split(":")
+        split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
+        split_pred[i] = "".join(split_pred[i])
+
+    prediction = "\n".join(split_pred)
+
     return prediction
 
 def get_question(text, questions):
@@ -65,11 +75,9 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             prediction = prediction["choices"][0]["text"].lstrip("\n")
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
-                pass
-                #continue
+                continue
             else:
-                pass
-                #prediction = filtered
+                prediction = filtered
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():
                 response_dict[filter.capitalize()] = {"N/A": "No answer found"}

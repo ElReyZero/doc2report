@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'docs2report.wsgi.application'
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': cfg.DATABASE["engine"],
         'NAME': cfg.DATABASE["name"],
         'USER': cfg.DATABASE["user"],
         'PASSWORD': cfg.DATABASE["password"],

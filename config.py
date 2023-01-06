@@ -28,6 +28,7 @@ DJANGO_KEY = None
 
 #: Contains database parameters.
 DATABASE = {
+    "engine":"",
     "host": "",
     "port": "",
     "name": "",

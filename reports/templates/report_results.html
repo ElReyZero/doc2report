@@ -46,8 +46,10 @@
                 {% for filter, predictions in document_values.predictions.items %}
                   {% for page, result in predictions.items %}
                     <tr>
-                      <td style="white-space: pre-line">{{filter}}</td>
-                      <td style="white-space: pre-line">{{result}}</td>
+                      <td style="white-space: pre-line; font-weight: bold;">
+                        {{filter}}</td>
+                      <td style="white-space: pre-line">
+                        {{result|safe}}</td>
                       <td>{{page}}</td>
                     </tr>
                   {% endfor %}
