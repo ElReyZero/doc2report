@@ -1,4 +1,3 @@
-
 test = """
 Question: Are there Marijuana restrictions?What are they?
 Answer: Unrelated
@@ -6,15 +5,18 @@ Context: Unrelated
 
 Question: Are pets allowed?
 Answer: No
-Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
+Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of so
+meone other than a resident of the building.
 
 Question: How many pets allowed?
 Answer: None
-Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
+Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of so
+meone other than a resident of the building.
 
 Question: What pets are allowed?
 Answer: None
-Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
+Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of so
+meone other than a resident of the building.
 """
 
 def get_blank_question(response):
@@ -58,7 +60,9 @@ def filter_response(prediction):
             copy.remove(split_pred[i])
             continue
     split_pred = copy
-    copy = split_pred.copy()
+
+    if len(split_pred) == 1:
+        return True
 
     for i in range(len(split_pred)):
         try:

@@ -46,6 +46,10 @@ def filter_response(prediction, response_dict, filter):
             copy.remove(split_pred[i])
             continue
     split_pred = copy
+
+    if len(split_pred) == 1:
+        return True
+
     copy = split_pred.copy()
 
     for i in range(len(split_pred)):
