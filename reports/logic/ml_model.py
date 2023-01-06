@@ -5,8 +5,9 @@ import re
 
 def get_blank_question(response):
     exclude = ["", "Answer:", "Answer:\n", "Answer: \n"]
-    if any(x in response for x in exclude):
-        return True
+    for word in exclude:
+        if response == word:
+            return True
     return False
 
 def filter_response(prediction, response_dict, filter):
@@ -30,12 +31,18 @@ def filter_response(prediction, response_dict, filter):
 
     for i in range(len(split_pred)):
         split_pred[i] = split_pred[i].split(":")
-        split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
+        if split_pred[i][0] == "":
+            continue
+        elif "question" in split_pred[i][0].lower():
+            split_pred[i][0] = "\n<b>" + split_pred[i][0] + ":</b>"
+        else:
+            split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
         split_pred[i] = "".join(split_pred[i])
-    prediction = "\n".join(split_pred)
 
-    print(split_pred)
-    print(prediction)
+    for item in split_pred.copy():
+        if type(item) == list:
+            split_pred.remove(item)
+    prediction = "\n".join(split_pred)
     return prediction
 
 def get_question(text, questions):
