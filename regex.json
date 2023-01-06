@@ -7,7 +7,6 @@
             "animals",
             "domestic",
             "companion",
-            "tame",
             "dog",
             "cat",
             "dogs",
@@ -27,7 +26,11 @@
             "renting",
             "accommodation",
             "airbnb",
+			"airbnb.com",
             "homeaway",
+			"B&B",
+			"bed and breakfast",
+			"vrbo",
             "vrbo.com"
         ],
         "BBQ": [
@@ -40,37 +43,157 @@
             "barbeques",
             "grilling"
         ],
-        "other": [
-            "Does the strata have quiet hours?",
-            "Are Christmas Trees and Holiday decorations allowed?",
-            "Is Air Conditioning allowed in the strata unit?",
-            "What is the Strata's responsibility to repair and insure?"
-        ]
+		"Quiet Hours": [
+			"quiet hours",
+			"quiet",
+			"Quiet period"
+		],
+		"Holidays": [
+			"christmas",
+			"christmas tree",
+			"holiday decorations"
+		],
+		"Air Con": [
+			"AC",
+			"air conditioner",
+			"central air",
+			"air con",
+			"climate control"		
+		],
+		"Strata Responsibility": [
+			"strata responsibility",
+			"repair",
+			"insure"
+		]
     },
     "minute": {
-        "Move in/out Fees": [],
-        "Strata Fee Increase": [],
+        "Move in/out Fees": [
+			"Move in",
+			"Move out",
+			"Move in Fee",
+			"Move in Fees",
+			"Move out Fee",
+			"Move out Fees",
+			"Move in/out Fees"
+		],
+        "Strata Fee Increases": [
+			"strata fee",
+			"strata fees",
+			"strata fee increase",
+			"strata fee increases"
+		],
         "elevator": [
             "elevator",
             "lift"
         ],
-        "building exterior": [],
-        "leaks": [],
-        "mould": [],
-        "legal/civil resolutions": [],
-        "insurance": [],
-        "plumbing": [],
-        "roof": [],
-        "security": [],
-        "levy": [],
-        "windows": [],
-        "noise complaints": [],
-        "smoking complaints": [],
-        "engineer reports": [],
-        "insurance claims": [],
-        "renovation requests": [],
-        "pests": [],
-        "fire inspections": []
+        "building exterior": [
+			"building exterior",
+			"exterior",
+			"building "
+		],
+        "leaks": [
+			"leaks",
+			"leak"
+		],
+        "mould": [
+			"mould",
+			"fungus",
+			"rot",
+			"mildew",
+			"dry rot",
+			"wet rot",
+			"rotting"
+		],
+        "legal/civil resolutions": [
+			"legal",
+			"legal dispute",
+			"legal suit",
+			"legal suits",
+			"legal resolution",
+			"legal resolutions",
+			"civil",
+			"civil dispute",
+			"civil suit",
+			"civil suits",
+			"civil resolution",
+			"civil resolutions",
+			"legal settlements",
+			"legal settlement",
+			"verdicts",
+			"verdict"
+		],
+        "insurance": [
+			"insurance"
+		],
+        "plumbing": [
+			"plumbing",
+			"pipes",
+			"drains",
+			"sanitation",
+			"waterworks",
+			"fixtures",
+			"water system",
+			"drainage system",
+			"boiler"
+		],
+        "roof": [
+			"roof",
+			"rooftop"
+		],
+        "security": [
+			"security",
+			"building security"
+		],
+        "levy": [
+			"levy",
+			"special levy",
+			"assessment"
+		],
+        "windows": [
+			"windows",
+			"window",
+			"glass"
+		],
+        "noise complaints": [
+			"noise complaints",
+			"noise"
+		],
+        "smoking complaints": [
+			"smoking complaints",
+			"smoking"
+		],
+        "engineer reports": [
+			"engineer reports",
+			"engineer report",
+			"engineer"
+		],
+        "insurance claims": [
+			"insurance claims",
+			"insurance claim",
+			"insurance"
+		],
+        "renovation requests": [
+			"renovation requests",
+			"renovation request"
+		],
+        "pests": [
+			"pests",
+			"pest",
+			"mice",
+			"rats",
+			"rat",
+			"ants",
+			"ant",
+			"bed bug",
+			"bed bugs"
+		],
+        "fire inspections": [
+			"fire inspections",
+			"fire inspection",
+			"fire",
+			"inspections",
+			"inspection"
+		]
     },
     "financial": {
         "financial": []
