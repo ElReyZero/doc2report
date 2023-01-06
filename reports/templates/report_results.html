@@ -10,93 +10,102 @@
     navigator.clipboard.writeText(url + "/reports/public/{{report.id}}/results/");
     document.getElementById("copied-text").style.display = "block";
   }
+
+  function openReportNewTab() {
+    window.open(window.location.protocol + '//' + window.location.host + window.location.pathname.replace("/results/", "/"), '_blank')
+  }
 </script>
 
+{% if report.status == "Processing" %}
+<h1>Processing Report</h1>
+<p>Your report is currently being processed, please wait for a couple of minutes and then refresh this page.</p>
+{% else %}
+  <div class="row">
+    <div class="col-md-8">
 
-<div class="row">
-  <div class="col-md-8">
+      <h3>Restrictions Found in the Report:</h3>
+      <div class="accordion" id="accordionExample">
+        {% for filter, values in results.items %}
+        <h4>{{filter}} Restrictions</h4>
+        {% for document_id, document_values in values.items %}
+        <div class="card">
+          <div class="card-header" id="heading{{filter}}">
+            <h5 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{filter}}"
+                aria-expanded="true" aria-controls="collapse{{filter}}">
+                {{document_values.name}}
+              </button>
+            </h5>
+          </div>
 
-    <h3>Restrictions Found in the Report:</h3>
-    <div class="accordion" id="accordionExample">
-      {% for filter, values in results.items %}
-      <h4>{{filter}} Restrictions</h4>
-      {% for document_id, document_values in values.items %}
-      <div class="card">
-        <div class="card-header" id="heading{{filter}}">
-          <h5 class="mb-0">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{filter}}"
-              aria-expanded="true" aria-controls="collapse{{filter}}">
-              {{document_values.name}}
-            </button>
-          </h5>
-        </div>
-
-        <div id="collapse{{filter}}" class="collapse show" aria-labelledby="heading{{filter}}">
-          <div class="card-body">
-            {% if document_values.predictions %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Filter</th>
-                  <th scope="col">Predictions</th>
-                  <th scope="col">Page</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for filter, predictions in document_values.predictions.items %}
-                  {% for page, result in predictions.items %}
-                    <tr>
-                      <td style="white-space: pre-line; font-weight: bold;">
-                        {{filter}}</td>
-                      <td style="white-space: pre-line">
-                        {{result|safe}}</td>
-                      <td>{{page}}</td>
-                    </tr>
+          <div id="collapse{{filter}}" class="collapse show" aria-labelledby="heading{{filter}}">
+            <div class="card-body">
+              {% if document_values.predictions %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Filter</th>
+                    <th scope="col">Predictions</th>
+                    <th scope="col">Page</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for filter, predictions in document_values.predictions.items %}
+                    {% for page, result in predictions.items %}
+                      <tr>
+                        <td style="white-space: pre-line; font-weight: bold;">
+                          {{filter}}</td>
+                        <td style="white-space: pre-line">
+                          {{result|safe}}</td>
+                        <td>{{page}}</td>
+                      </tr>
+                    {% endfor %}
                   {% endfor %}
-                {% endfor %}
-              </tbody>
-            </table>
-            {% else %}
-            <p>No {{filter}} restrictions found.</p>
-            {% endif %}
+                </tbody>
+              </table>
+              {% else %}
+              <p>No {{filter}} restrictions found.</p>
+              {% endif %}
+            </div>
           </div>
         </div>
+        {% endfor %}
+        {% endfor %}
       </div>
-      {% endfor %}
-      {% endfor %}
     </div>
-  </div>
-  <div class="col-md-4">
-    <h3>Report details</h3>
-    <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
-    </div>
-    {% if user.id == report.user.id %}
-      <button type="text" class="btn btn-primary" value="" onClick="window.open('{{report_url}}', '_blank')" data-toggle="tooltip"
-        data-placement="bottom" title="View Report" id="view-doc-btn" style="margin-top: 5px">View Report</button>
-    {% endif %}
-    {% if report.is_public %}
-    <br>
-    <h3>Share this report!</h3>
-    <p style="display: none;" id="copied-text">Link copied to clipboard!</p>
-    <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
-      data-placement="bottom" title="Copy share link to clipboard">Copy Link
-    </button>
+    <div class="col-md-4">
+      <h3>Report details</h3>
+      <div class="text" style="white-space: pre-line">Report Name: {{report.name}}
+      </div>
       {% if user.id == report.user.id %}
+        <button type="text" class="btn btn-primary" value="" onClick="openReportNewTab()" data-toggle="tooltip"
+          data-placement="bottom" title="View Report" id="view-doc-btn" style="margin-top: 5px">View Report</button>
+      {% endif %}
+      {% if report.is_public %}
       <br>
-      <form action="{% url 'change_report_visibility' report.id %}" type="submit">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger" value="" style="margin-top: 5px;">
-          Make Private
-        </button>
-      </form>
-      {% endif %}
-      {% else %}
-      <form action="{% url 'change_report_visibility' report.id %}" type="submit">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary" value="" style="margin-top: 5px;">Make Public</button>
-      </form>
-      {% endif %}
+      <h3>Share this report!</h3>
+      <p style="display: none;" id="copied-text">Link copied to clipboard!</p>
+      <button type="text" class="btn btn-primary" value="" onClick="copyToClipboard()" data-toggle="tooltip"
+        data-placement="bottom" title="Copy share link to clipboard">Copy Link
+      </button>
+        {% if user.id == report.user.id %}
+        <br>
+        <form action="{% url 'change_report_visibility' report.id %}" type="submit">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger" value="" style="margin-top: 5px;">
+            Make Private
+          </button>
+        </form>
+        {% endif %}
+        {% else %}
+        <form action="{% url 'change_report_visibility' report.id %}" type="submit">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary" value="" style="margin-top: 5px;">Make Public</button>
+        </form>
+        {% endif %}
+    </div>
   </div>
-</div>
+
+{% endif %}
 
 {% endblock %}

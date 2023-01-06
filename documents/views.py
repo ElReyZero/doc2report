@@ -43,4 +43,8 @@ def delete_document(request, report_pk, doc_pk):
         document = Document.objects.get(id=doc_pk)
         if request.user.id == document.user.id:
             document.delete()
+            report = Report.objects.get(id=report_pk)
+            report.status = "Not ready"
+            report.already_generated = False
+            report.save()
     return redirect('view_report', report_pk)

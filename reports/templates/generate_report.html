@@ -58,6 +58,10 @@
             checkAllBtn.value = "Select All";
         }
     }
+
+    function openQuestionsTab() {
+        window.open(window.location.protocol + '//' + window.location.host + '/report-questions/', '_blank')
+    }
 </script>
 
 <h1>Generate Report</h1>
@@ -111,6 +115,7 @@
         <div class="col">
             <p><input class="btn btn-primary" type="button" value="Go Back"
                     onclick="location.href = '{% url 'view_report' report.id %}'" /></p>
+            <p><button class="btn btn-info" type="button" value="Show Filter Questions" onclick="openQuestionsTab()">Show Filter Questions <i class="fa fa-question-circle" aria-hidden="true"></i></button></p>
             <p><input class="btn btn-warning" type="submit" value="Calculate price" onclick="calculatePrice()"> </p>
             <p><input class="btn btn-success" type="submit" value="Generate Report" onclick="removePriceCalc()"/></p>
             <div id="loader" style="display: none;">

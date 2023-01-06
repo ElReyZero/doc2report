@@ -8,6 +8,7 @@ from .models import Report
 from documents.models import Document
 from .forms import NewReportForm, GenerateReportFilterForm
 from .logic.document_processing import process_report, return_results_for_view
+from threading import Thread
 # Create your views here.
 
 
@@ -100,13 +101,15 @@ def generate_report(request, report_pk):
                     except TypeError:
                         continue
                     if data["price_calculation"]:
-                        prices = process_report(report, category_documents, category, filters, price_calculation=True)
-                        price_dict[category] = {"tokens": prices, "pages": 0, "requests": 0}
+                        price_store = list()
+                        process_report(report, category_documents, category, filters, price_calculation=True, price_store=price_store)
+                        price_dict[category] = {"tokens": price_store[0], "pages": 0, "requests": 0}
                         for document in category_documents:
                             price_dict[category]["pages"] += document.doc_page_length
                             price_dict[category]["requests"] += document.doc_page_length * len(filters)
                     else:
-                        process_report(report, category_documents, category, filters)
+                        processing_thread = Thread(target=process_report, args=(report, category_documents, category, filters))
+                        processing_thread.start()
                 if not data["price_calculation"]:
                     report.already_generated = True
                     report.save()
@@ -137,9 +140,7 @@ def generate_report(request, report_pk):
 def view_report_predictions(request, report_pk):
     try:
         report, results = return_results_for_view(report_pk)
-        if results:
-            return render(request, "report_results.html", context={'report': report, 'results': results, 'report_url': request.build_absolute_uri(reverse('view_report', args=[report.id]))})
-        return redirect("user_reports")
+        return render(request, "report_results.html", context={'report': report, 'results': results, 'report_url': request.build_absolute_uri(reverse('view_report', args=[report.id]))})
     except (ValidationError, Report.DoesNotExist):
         return redirect("user_reports")
 

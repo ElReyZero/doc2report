@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+{% block content %}
+<h2>Questions asked during report generation</h2>
+<p>In this page you can check which questions are asked per filter when you generate a report!</p>
+
+
+{% for category, filters in questions.items %}
+<h4 style="text-transform:capitalize">{{category}} Questions</h4>
+<ul>
+    {% for filter, questions in filters.items %}
+    <li>
+        <h4 style="text-transform:capitalize">{{filter|safe}} Filter</h4>
+        <ul>
+            {% for question in questions %}
+            <li>
+                {{question|safe}}
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+
+{% endblock %}

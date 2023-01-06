@@ -23,7 +23,7 @@ def process_document(document, category, filters, price_calculation=False, price
     else:
         price_dict[f"Document {document.name}"] = sum(results.values())
 
-def process_report(report, category_documents, category, filters, price_calculation=False):
+def process_report(report, category_documents, category, filters, price_calculation=False, price_store=list()):
     thread_list = list()
     price_dict = dict()
     if not price_calculation:
@@ -37,7 +37,8 @@ def process_report(report, category_documents, category, filters, price_calculat
     for thread in thread_list:
         thread.join()
     if price_calculation:
-        return sum(price_dict.values())
+        price_store.append(sum(price_dict.values()))
+        return
     report.status = "Report Generated"
     report.save()
 
@@ -52,7 +53,10 @@ def return_results_for_view(report_pk):
         for category in categories:
             documents_in_category = documents.filter(category=category)
             results[category] = dict()
-            for document in documents_in_category:
-                results[category][document.id] = {'name': document.name, 'predictions': loads(document.predictions)}
+            try:
+                for document in documents_in_category:
+                    results[category][document.id] = {'name': document.name, 'predictions': loads(document.predictions)}
+            except TypeError:
+                return report, None
         return report, results
-    return None
+    return report, None
