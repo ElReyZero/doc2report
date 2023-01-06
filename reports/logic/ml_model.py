@@ -34,8 +34,6 @@ def filter_response(prediction, response_dict, filter):
         split_pred[i] = "".join(split_pred[i])
 
     prediction = "\n".join(split_pred)
-    print(split_pred)
-    print(prediction)
     return prediction
 
 def get_question(text, questions):
@@ -61,7 +59,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
         # Skip if the page doesn't contain any of the keywords
-        if not any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in get_regex_list(category, filter)) and category != "financial" and category != "depreciation" and any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in ["table of contents"]):
+        if (not any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in get_regex_list(category, filter)) and category != "financial" and category != "depreciation") or any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in ["table of contents"]):
             continue
         elif not price_calculation:
             prediction = openai.Completion.create(
