@@ -37,7 +37,7 @@ def get_question(text, questions):
     {text}\n
     Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state "Unrelated" in both the answer and context field.\n
     Questions:
-    {question_text}
+    {question_text}\n
     """
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
@@ -61,7 +61,8 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 max_tokens=1000,
                 top_p=1,
                 frequency_penalty=0,
-                presence_penalty=0
+                presence_penalty=0,
+                stop=["\n"]
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
             filtered = filter_response(prediction, response_dict, filter)
