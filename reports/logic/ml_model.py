@@ -60,8 +60,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 max_tokens=1000,
                 top_p=1,
                 frequency_penalty=0,
-                presence_penalty=0,
-                stop=["\n"]
+                presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
             print(prediction)
