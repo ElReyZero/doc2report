@@ -27,7 +27,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]', '', text[page_no]) + "."
         # Skip if the page doesn't contain any of the keywords
-        if not any(re.search(r"\b" + re.escape(x) + r"\b", page) for x in get_regex_list(category, filter)):
+        if not any(re.search(r"\b" + re.escape(x) + r"\b", page) for x in get_regex_list(category, filter)) and category != "financial":
             continue
         elif not price_calculation:
             prediction = openai.Completion.create(
