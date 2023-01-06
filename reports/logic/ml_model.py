@@ -30,14 +30,13 @@ def filter_response(prediction, response_dict, filter):
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{i+1}. {questions[i]}|"
+        question_text += f"\n{questions[i]}|"
 
     return f"""
-    Context:\n
-    {text}\n
+    "{text}"\n\n
     Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state "Unrelated" in both the answer and context field.\n
-    Questions:\n
-    {question_text}\n
+    \n\n
+    {question_text}\n\n
     """
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
