@@ -32,8 +32,10 @@ def filter_response(prediction, response_dict, filter):
         split_pred[i] = split_pred[i].split(":")
         split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
         split_pred[i] = "".join(split_pred[i])
-
     prediction = "\n".join(split_pred)
+
+    print(split_pred)
+    print(prediction)
     return prediction
 
 def get_question(text, questions):
@@ -72,6 +74,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
+            print(prediction)
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
                 continue
