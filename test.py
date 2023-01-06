@@ -1,9 +1,5 @@
 test = """
-Question: Are there Marijuana restrictions?What are they?
-Answer: Unrelated
-Context: Unrelated
 
-Question: Are pets allowed?
 Answer: No
 Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of so
 meone other than a resident of the building.
@@ -63,6 +59,9 @@ def filter_response(prediction):
 
     if len(split_pred) == 1:
         return True
+    elif "question" in split_pred[-1].lower():
+        copy.remove(split_pred[-1])
+        split_pred = copy
 
     for i in range(len(split_pred)):
         try:

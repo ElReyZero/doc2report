@@ -49,6 +49,9 @@ def filter_response(prediction, response_dict, filter):
 
     if len(split_pred) == 1:
         return True
+    elif "question" in split_pred[-1].lower():
+        copy.remove(split_pred[-1])
+        split_pred = copy
 
     copy = split_pred.copy()
 
