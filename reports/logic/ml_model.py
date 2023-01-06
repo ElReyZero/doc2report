@@ -45,6 +45,10 @@ def filter_response(prediction, response_dict, filter):
         if type(split_pred[i]) == list:
             copy.remove(split_pred[i])
             continue
+    split_pred = copy
+    copy = split_pred.copy()
+
+    for i in range(len(split_pred)):
         try:
             if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
                 copy.remove(split_pred[i])
