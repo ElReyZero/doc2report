@@ -69,7 +69,8 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 pass
                 #continue
             else:
-                prediction = filtered
+                pass
+                #prediction = filtered
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():
                 response_dict[filter.capitalize()] = {"N/A": "No answer found"}
