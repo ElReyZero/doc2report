@@ -3,6 +3,30 @@ from threading import Thread
 import openai
 import re
 
+def get_blank_question(response):
+    exclude = ["", "Answer:", "Answer:\n", "Answer: \n"]
+    if any(x in response for x in exclude):
+        return True
+    return False
+
+def filter_response(prediction, response_dict):
+    # Skip if the prediction is unrelated or if the prediction is already in the response dict
+    if prediction == "Unrelated" or prediction == "Unrelated.":
+        return True
+    elif prediction in response_dict[filter.capitalize()].values():
+        return True
+    elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
+        return True
+    prediction = prediction.replace("|", " ").split("\n")
+    pred_str = ""
+    for question in prediction:
+        if not "unrelated" in question.lower():
+            pred_str += question + "\n"
+    prediction = pred_str
+    if get_blank_question(prediction):
+        return True
+    return prediction
+
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
@@ -40,21 +64,12 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
-            # Skip if the prediction is unrelated or if the prediction is already in the response dict
-            if prediction == "Unrelated" or prediction == "Unrelated.":
-                continue
-            elif prediction in response_dict[filter.capitalize()].values():
-                continue
-            elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
-                continue
-            prediction = prediction.replace("|", " ").split("\n")
-            pred_str = ""
-            for question in prediction:
-                if not "unrelated" in question.lower():
-                    pred_str += question + "\n"
-            prediction = pred_str
-            if prediction == "" or prediction == "Answer:" or prediction == "Answer:\n":
-                continue
+            filtered = filter_response(prediction, response_dict)
+            if filtered is True:
+                pass
+                #continue
+            else:
+                prediction = filtered
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():
                 response_dict[filter.capitalize()] = {"N/A": "No answer found"}
