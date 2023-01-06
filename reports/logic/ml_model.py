@@ -34,7 +34,8 @@ def filter_response(prediction, response_dict, filter):
         split_pred[i] = "".join(split_pred[i])
 
     prediction = "\n".join(split_pred)
-
+    print(split_pred)
+    print(prediction)
     return prediction
 
 def get_question(text, questions):
