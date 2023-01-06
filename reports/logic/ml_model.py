@@ -16,7 +16,7 @@ def filter_response(prediction, response_dict, filter):
         return True
     elif prediction in response_dict[filter.capitalize()].values():
         return True
-    elif all([True if "Unrelated" in x or x == "" or "None" else False for x in prediction.split("\n")]) :
+    elif all([True if "Unrelated" in x or x == "" or x == "None" else False for x in prediction.split("\n")]) :
         return True
     prediction = prediction.replace("|", " ").split("\n")
     pred_str = ""
