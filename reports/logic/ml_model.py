@@ -16,7 +16,7 @@ def filter_response(prediction, response_dict, filter):
         return True
     elif prediction in response_dict[filter.capitalize()].values():
         return True
-    elif all([True if "Unrelated" in x or x == "" else False for x in prediction.split("\n")]) :
+    elif all([True if "Unrelated" in x or x == "" or "None" else False for x in prediction.split("\n")]) :
         return True
     prediction = prediction.replace("|", " ").split("\n")
     pred_str = ""
@@ -39,10 +39,18 @@ def filter_response(prediction, response_dict, filter):
             split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
         split_pred[i] = "".join(split_pred[i])
 
-    for item in split_pred.copy():
-        if type(item) == list:
-            split_pred.remove(item)
-    prediction = "\n".join(split_pred)
+    copy = split_pred.copy()
+
+    for i in range(len(split_pred)):
+        if type(split_pred[i]) == list:
+            copy.remove(split_pred[i])
+            continue
+        try:
+            if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
+                copy.remove(split_pred[i])
+        except IndexError:
+            pass
+    prediction = "\n".join(copy).strip()
     return prediction
 
 def get_question(text, questions):
@@ -81,7 +89,6 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 presence_penalty=0
             )
             prediction = prediction["choices"][0]["text"].lstrip("\n")
-            print(prediction)
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
                 continue

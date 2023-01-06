@@ -1,7 +1,8 @@
 
 test = """
-Question: Is there a vicious breed restriction? What breeds are considered vicious?
-Answer: Unrelated.
+Question: Are there Marijuana restrictions?What are they?
+Answer: Unrelated
+Context: Unrelated
 Question: Are pets allowed?
 Answer: No
 Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
@@ -13,32 +14,6 @@ Context: Laundry room facilities are for the use of residents only and must not 
 Question: What pets are allowed?
 Answer: None
 Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
-
-Question: What are the pet restrictions?
-Answer: None
-Context: Laundry room facilities are for the use of residents only and must not be used for the laundry of someone other than a resident of the building.
-
-Question: Is there a vicious breed restriction? What breeds are considered vicious?
-Answer: Unrelated
-Question: Is smoking allowed?
-Answer: No, smoking is prohibited anywhere on common property and/or limited common property.
-Context: Bylaw 481 states that "Smoking as it is defined as follows is prohibited anywhere on common property and/or limited common property."
-
-Question: Is smoking allowed insuite?
-Answer: No, smoking is prohibited anywhere on common property and/or limited common property.
-Context: Bylaw 481 states that "Smoking as it is defined as follows is prohibited anywhere on common property and/or limited common property."
-
-Question: Is smoking allowed only on balconies?
-Answer: No, smoking is prohibited anywhere on common property and/or limited common property.
-Context: Bylaw 481 states that "Smoking as it is defined as follows is prohibited anywhere on common property and/or limited common property."
-
-Question: Where is smoking allowed in the building?
-Answer: Smoking is not allowed in the building.
-Context: Bylaw 481 states that "Smoking as it is defined as follows is prohibited anywhere on common property and/or limited common property."
-
-Question: Are there Marijuana restrictions?What are they?
-Answer: Yes, smoking is prohibited anywhere on common property and/or limited common property.
-Context: Bylaw 481 states that "Smoking as it is defined as follows is prohibited anywhere on common property and/or limited common property."
 """
 
 def get_blank_question(response):
@@ -75,10 +50,18 @@ def filter_response(prediction):
             split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
         split_pred[i] = "".join(split_pred[i])
 
-    for item in split_pred.copy():
-        if type(item) == list:
-            split_pred.remove(item)
-    prediction = "\n".join(split_pred)
+    copy = split_pred.copy()
+
+    for i in range(len(split_pred)):
+        if type(split_pred[i]) == list:
+            copy.remove(split_pred[i])
+            continue
+        try:
+            if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
+                copy.remove(split_pred[i])
+        except IndexError:
+            pass
+    prediction = "\n".join(copy).strip()
     return prediction
 
 print(filter_response(test))
