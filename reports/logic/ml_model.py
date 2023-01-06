@@ -15,7 +15,7 @@ def filter_response(prediction, response_dict, filter):
         return True
     elif prediction in response_dict[filter.capitalize()].values():
         return True
-    elif all([True if "Unrelated" in x or x == "" else False for x in re.split("\d\.", prediction)]) :
+    elif all([True if "Unrelated" in x or x == "" else False for x in re.split("Answer:", prediction)]) :
         return True
     prediction = prediction.replace("|", " ").split("\n")
     pred_str = ""
@@ -30,13 +30,13 @@ def filter_response(prediction, response_dict, filter):
 def get_question(text, questions):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{questions[i]}|"
+        question_text += f"\n{questions[i]}"
 
     return f"""
     "{text}"\n\n
-    Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state "Unrelated" in both the answer and context field.\n
-    \n\n
-    {question_text}\n\n
+    Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state "Unrelated" in both the question, answer and context fields.
+    \n
+    {question_text}\n\n\n
     """
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
