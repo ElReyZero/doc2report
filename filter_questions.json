@@ -1,34 +1,34 @@
 {
     "bylaws": {
         "pets": [
-			"Are pets allowed?",
-			"How many pets allowed?",
-			"What pets are allowed?",
-			"What are the pet restrictions?",
-			"Is there a vicious breed restriction? What breeds are considered vicious?"
+			"Are pets allowed in the strata building?",
+			"How many pets are allowed per unit in a strata building?",
+			"What pets are allowed per unit in a strata building?",
+			"What are the pet restrictions in the strata building?",
+			"Is there a vicious breed restriction in the strata building?"
         ],
         "smoking": [
-            "Is smoking allowed?",
-            "Is smoking allowed insuite?",
-            "Is smoking allowed only on balconies?",
+            "Is smoking allowed in the strata building?",
+            "Is smoking allowed inside the suite or apartment?",
+            "Is smoking allowed on balconies?",
             "Where is smoking allowed in the building?",
-            "Are there Marijuana restrictions? What are they?"
+            "Are there Marijuana restrictions?"
         ],
         "rental": [
-            "Is there a limit to rented suites in the building? How many?",
-            "Is there a length of time of rental requirement?",
-            "Are Short Term Rentals allowed? such as airbnb, vrbo",
-            "Is a Bed and Breakfast allowed?",
-            "Are there any restrictions to Short Term Rentals?",
-            "Are there restrictions to Guests in the Short Term Rental?",
-            "Are family members considered rentals?"
+            "Do the strata bylaws impose a maximum number of rental units in the building?",
+            "Do tenants need to commit to a minimum length of time when renting a strata property?",
+            "Can a strata allow owners to rent their units on a short-term basis, such as through Airbnb or VRBO?",
+            "Can a Bed and Breakfast be operated in the strata building?",
+            "Are there any limitations or restrictions to Short Term Rentals?",
+            "Are there any limitations or restrictions that apply to Guests in the Short Term Rental?",
+            "Are family members considered tenants when renting a unit in the strata?"
         ],
         "BBQ": [
-            "Are BBQ's allowed?",
-            "What type of BBQ is allowed?"
+            "Can residents of the strata have barbecues?",
+            "What type of BBQ is permitted in the strata?"
         ],
-		"other": [
-            "Does the strata have quiet hours?",
+		"Other": [
+            "Does the strata have designated times when noise must be kept to a minimum?",
             "Are Christmas Trees and Holiday decorations allowed?",
             "Is Air Conditioning allowed in the strata unit?",
             "What is the Strata's responsibility to repair and insure?"
@@ -36,98 +36,102 @@
     },
     "minute": {
         "Move in/out Fees": [
-            "Is there a fee to move in or move out?",
-            "What is the notice required moving in or move out?",
+            "Are there any additional fees associated with moving in or out of the strata?",
+            "When moving in or out of a strata property, what is the required notice that must be given?",
             "What is the move in and move out times?"
         ],
         "Strata Fee Increase": [
-            "Are Strata fees increasing this year? How much and what's the percentage?"
+            "Are Strata fees increasing this year?",
+			"Are the Strata fees going up this year, and if so, by what percentage?"
         ],
         "elevator": [
-            "What is the age of the elevator?",
-            "Does the elevator break down often?",
-            "Is the elevator out of order reported?"
+            "What is the age of the elevator in the strata building?",
+            "Does the elevator in the strata malfunction or cease to operate?"
         ],
         "building exterior": [
             "Are there reports of water ingress?",
-            "Is there planned Building exterior maintenance? What is planned?"
+            "Is there planned Building exterior maintenance?"
         ],
         "leaks": [
-            "Are there any reports of leaks in the building or between units? Who was at fault?",
-            "Did the leak cause a Strata Insurance claim?",
+            "Are there any reports of leaks in the building or between units?",
+			"Who was at fault for the reported leaks?",
+            "Did the leak result in a Strata Insurance claim being made?",
             "What was the cause of the leak?"
         ],
         "mould": [
-            "Any reports of mould within suites?"
+            "Has anyone noticed any signs of mould in any of the suites of the strata?"
         ],
         "legal/civil resolutions": [
             "Does the strata have any Legal or Civil suits?"
         ],
         "insurance": [
-            "Strata insurance renewal?",
+            "Did the Strata insurance policy need to be renewed?",
             "What is the water deductible?"
         ],
         "plumbing": [
-            "Any reports of leaks in the plumbing?",
-            "Any Pinhole leaks in the plumbing?",
-            "Was any part of the plumbing replaced?"
+            "Have there been any reports of water leaks in the plumbing system of the strata?",
+            "Are there any signs of water leaking from the plumbing system, such as a pinhole in the pipes?",
+            "Did any of the plumbing in the strata get replaced or repaired recently?"
         ],
         "roof": [
             "Does the rooftop have annual or regular maintenance?",
-            "Reports of leaks on the roof?",
-            "Was the roof repaired?",
-            "When was the roof repaired?",
-            "What is the age of the roof?"
+            "Have there been any reports of water leaks on the roof of the strata building?",
+            "Did the strata take any action to repair the roof?",
+            "When was the roof of the strata building last repaired?",
+            "What is the age of the roofing material on the strata?"
         ],
         "security": [
-            "Any reports of break ins? If so, Where? What?",
+            "Have there been any reports of burglaries or break-ins in the strata?",
+			"What was broken into?",
             "Has there been anything stolen?",
             "Did they fix what was broken into?",
-            "Any reports of vandalism?"
+            "Has there been any reports of vandalism to the strata property?"
         ],
         "levy": [
-            "Any upcoming levies?"
+            "Are there any additional fees or charges that the strata corporation will be imposing on its members in the near future?"
         ],
         "windows": [
-            "Are there issues with the windows? Broken seals or fogged glass?",
+            "Are there issues with the windows?",
             "Is there any window replacement planned?"
         ],
         "noise complaints": [
-            "Any reports of Noise complaints?"
+            "Has there been any reports of excessive noise that has caused complaints from residents in the strata?"
         ],
         "smoking complaints": [
-            "Any reports of Smoking complaints?"
+            "Has there been any reports of complaints related to smoking in the strata?"
         ],
         "engineer reports": [
             "Does the Engineer report have any comments?"
         ],
         "insurance claims": [
-            "Are there insurance claims? What were they for?"
+            "Are there any insurance claims associated with the strata?",
+			"What was the insurance claim for?"
         ],
         "renovation requests": [
-            "Are there renovation requests? Were they approved?"
+            "Are there any requests for renovations or improvements to the strata property?",
+			"Did the request to make renovations or improvements to the strata get approved?"
         ],
         "pests": [
-            "Are there reports of pests in the building or units? Mice, rats, ants, bed bugs?"
+            "Have there been any reports of pests such as mice, rats, ants, or bed bugs in the building or individual units of the strata?"
         ],
         "fire inspections": [
-            "Do Annual fire inspections happen yearly?"
+            "Do fire inspections occur on an annual basis, taking place once every year?"
         ]
     },
     "financial": {
         "financial": [
-            "What is the total budget?",
-            "What is the maintenance budget? (general repairs and maintenance)",
-            "What is the insurance budget?",
-            "What is the utilities budget?",
-            "Is there cash in reserve?",
-            "How much cash is in reserve?",
-            "What is the landscaping budget?",
-            "Is there a yearly contingency fund contribution?",
-            "Is there budget for window cleaning?",
-            "Is there budget for pest control?",
-            "Is there budget for dryer duct cleaning?",
-            "Are budget items separate or included in a larger item?"
+            "What is the total amount allocated for the strata budget?",
+            "What is the annual budget allocated for general repairs and maintenance of the strata?",
+            "What is the amount allocated for insurance coverage in the strata's budget?",
+            "What is the estimated budget for utilities, such as electricity, water, and gas, for the strata property?",
+            "Does the strata have money in reserve to cover any unexpected expenses?",
+            "What is the amount of cash that is currently held in reserve by the strata?",
+            "What is the budget for landscaping services of the strata?",
+            "Does the strata  contribute to a yearly contingency fund?",
+            "What is the budget for window cleaning services for the strata?",
+            "Does strata have a budget allocated for pest control services?",
+            "Does strata have a budget allocated for dryer duct cleaning?",
+            "Are individual budget items distinct from one another, or are they grouped together as part of a larger item?"
         ]
     },
     "depreciation": {
