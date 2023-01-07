@@ -90,7 +90,7 @@ class GenerateReportFilterForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
         bylaws = cleaned_data.get("bylaws")
-        minutes = cleaned_data.get("minutes")
+        minutes = cleaned_data.get("minute")
         financial = cleaned_data.get("financial")
         depreciation = cleaned_data.get("depreciation")
         custom_question = cleaned_data.get("custom_question")
