@@ -15,7 +15,7 @@
             "Are there Marijuana restrictions?"
         ],
         "rental": [
-            "Do the strata bylaws impose a maximum number of rental units in the building?",
+            "What is the maximum number of rental units allowed in the building according to the strata bylaws?",
             "Do tenants need to commit to a minimum length of time when renting a strata property?",
             "Can a strata allow owners to rent their units on a short-term basis, such as through Airbnb or VRBO?",
             "Can a Bed and Breakfast be operated in the strata building?",
@@ -49,8 +49,8 @@
             "Does the elevator in the strata malfunction or cease to operate?"
         ],
         "building exterior": [
-            "Are there reports of water ingress?",
-            "Is there planned Building exterior maintenance?"
+            "Have there been any reports of water entering the strata property, such as through leaking pipes or other sources of water ingress?",
+            "What is the planned schedule for Building exterior maintenance for the strata property?"
         ],
         "leaks": [
             "Are there any reports of leaks in the building or between units?",
