@@ -1,68 +1,7 @@
-from .filter_questions import get_questions_from_filter, get_regex_list
+from .filter_questions import get_questions_from_filter, get_regex_list, filter_response, get_blacklist, filter_page_by_any
 from threading import Thread
 import openai
 import re
-
-def get_blank_question(response):
-    exclude = ["", "Answer:", "Answer:\n", "Answer: \n"]
-    for word in exclude:
-        if response == word:
-            return True
-    return False
-
-def filter_response(prediction, response_dict, filter):
-    # Skip if the prediction is unrelated or if the prediction is already in the response dict
-    if prediction == "Unrelated" or prediction == "Unrelated.":
-        return True
-    elif prediction in response_dict[filter.capitalize()].values():
-        return True
-    elif all([True if "Unrelated" in x or x == "" or x == "None" else False for x in prediction.split("\n")]) :
-        return True
-    prediction = prediction.replace("|", " ").split("\n")
-    pred_str = ""
-    for question in prediction:
-        if not "unrelated" in question.lower():
-            pred_str += question + "\n"
-    prediction = pred_str
-    if get_blank_question(prediction):
-        return True
-
-    split_pred = prediction.split("\n")
-
-    for i in range(len(split_pred)):
-        split_pred[i] = split_pred[i].split(":")
-        if split_pred[i][0] == "":
-            continue
-        elif "question" in split_pred[i][0].lower():
-            split_pred[i][0] = "\n<b>" + split_pred[i][0] + ":</b>"
-        else:
-            split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
-        split_pred[i] = "".join(split_pred[i])
-
-    copy = split_pred.copy()
-
-    for i in range(len(split_pred)):
-        if type(split_pred[i]) == list:
-            copy.remove(split_pred[i])
-            continue
-    split_pred = copy
-
-    if len(split_pred) == 1:
-        return True
-    elif "question" in split_pred[-1].lower():
-        copy.remove(split_pred[-1])
-        split_pred = copy
-
-    copy = split_pred.copy()
-
-    for i in range(len(split_pred)):
-        try:
-            if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
-                copy.remove(split_pred[i])
-        except (IndexError, AttributeError):
-            pass
-    prediction = "\n".join(copy).strip()
-    return prediction
 
 def get_question(text, questions):
     question_text = ""
@@ -87,7 +26,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]+$', '', text[page_no]) + "."
         # Skip if the page doesn't contain any of the keywords
-        if (not any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in get_regex_list(category, filter)) and category != "financial" and category != "depreciation") or any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in ["table of contents"]):
+        if (not filter_page_by_any(page, get_regex_list(category, filter)) and category not in ["financial", "depreciation"]) or filter_page_by_any(page, get_blacklist()):
             continue
         elif not price_calculation:
             prediction = openai.Completion.create(
