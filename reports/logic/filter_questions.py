@@ -34,6 +34,7 @@ def get_blank_question(response):
     return False
 
 def check_all_response_keywords(prediction):
+    print(prediction)
     keywords = ["answer:", "question:"]
     return all([True if keyword in prediction.lower() else False for keyword in keywords])
 
@@ -59,7 +60,7 @@ def filter_response(prediction, response_dict, filter):
     prediction = pred_str
     if get_blank_question(prediction):
         return True
-    elif check_all_response_keywords(prediction):
+    elif not check_all_response_keywords(prediction):
         return True
     split_pred = prediction.split("\n")
 
