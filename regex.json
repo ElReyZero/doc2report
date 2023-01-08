@@ -43,31 +43,7 @@
             "barbeques",
             "grilling"
         ],
-		"Quiet Hours": [
-			"quiet hours",
-			"quiet",
-			"Quiet period"
-		],
-		"Holidays": [
-			"christmas",
-			"christmas tree",
-			"holiday decorations"
-		],
-		"Air Con": [
-			"AC",
-			"air conditioner",
-			"central air",
-			"air con",
-			"climate control"		
-		],
-		"Strata Responsibility": [
-			"strata responsibility",
-			"repair",
-			"insure"
-		]
-    },
-    "minute": {
-        "Move in/out Fees": [
+		"Move in/out Fees": [
 			"Move in",
 			"Move out",
 			"Move in Fee",
@@ -76,6 +52,26 @@
 			"Move out Fees",
 			"Move in/out Fees"
 		],
+		"Other": [
+			"quiet hours",
+			"quiet",
+			"Quiet period",
+			"christmas",
+			"christmas tree",
+			"holiday decorations",
+			"AC",
+			"air conditioner",
+			"central air",
+			"air con",
+			"climate control",
+			"AC",
+			"air conditioner",
+			"central air",
+			"air con",
+			"climate control"
+		]
+    },
+    "minute": {
         "Strata Fee Increases": [
 			"strata fee",
 			"strata fees",
@@ -93,7 +89,8 @@
 		],
         "leaks": [
 			"leaks",
-			"leak"
+			"leak",
+			"ingress"
 		],
         "mould": [
 			"mould",
@@ -196,7 +193,19 @@
 		]
     },
     "financial": {
-        "financial": []
+        "balance": [
+			"crf",
+			"Balance",
+			"Balance Sheet",
+			"Asset",
+			"liability",
+			"equity"
+			
+		],
+		"budget": [
+			"budget",
+			"utilities"
+		]
     },
     "depreciation": {
         "depreciation": []

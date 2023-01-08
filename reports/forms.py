@@ -21,11 +21,11 @@ class GenerateReportFilterForm(forms.Form):
         ("rental", "Rental Restrictions"),
         ("BBQ", "Use of BBQ"),
         ("smoking", "Smoking Restrictions"),
+        ("Move in/out Fees", "Move In/Out Fees"),
         ("other", "Other Restrictions")
     ]
 
     minutes_options = [
-        ("Move in/out Fees", "Move In/Out Fees"),
         ("Strata Fee Increase", "Strata Fee Increase"),
         ("elevator", "Elevator"),
         ("building exterior", "Building Exterior"),
@@ -48,7 +48,8 @@ class GenerateReportFilterForm(forms.Form):
     ]
 
     financial_options = [
-        ("financial", "Yes")
+        ("balance", "Balance"),
+        ("budget", "Budget")
     ]
 
     depreciation_options = [

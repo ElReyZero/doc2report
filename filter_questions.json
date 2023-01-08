@@ -25,19 +25,18 @@
             "Can residents of the strata have barbecues?",
             "What type of BBQ is permitted in the strata?"
         ],
-		"Other": [
-            "Does the strata have designated times when noise must be kept to a minimum?",
-            "Are Christmas Trees and Holiday decorations allowed?",
-            "Are Air Conditioning units allowed in the Strata unit?",
-            "What is the Strata's responsibility to repair and insure the property?"
-        ]
-    },
-    "minute": {
-        "Move in/out Fees": [
+		"Move in/out Fees": [
             "Are there any additional fees associated with moving in or out of the strata?",
             "When moving in or out of a strata property, what is the required notice that must be given?",
             "What is the move in and move out times?"
         ],
+		"Other": [
+            "Does the strata have designated times when noise must be kept to a minimum?",
+            "Are Christmas Trees and Holiday decorations allowed?",
+            "Are Air Conditioning units allowed in the Strata unit?"
+        ]
+    },
+    "minute": {
         "Strata Fee Increase": [
             "Are Strata fees increasing this year?",
 			"Are the Strata fees going up this year, and if so, by what percentage?"
@@ -47,10 +46,10 @@
             "Does the elevator in the strata malfunction or cease to operate?"
         ],
         "building exterior": [
-            "Have there been any reports of water entering the strata property, such as through leaking pipes or other sources of water ingress?",
             "What is the planned schedule for Building exterior maintenance for the strata property?"
         ],
         "leaks": [
+			"Have there been any reports of water entering the strata property, such as through leaking pipes or other sources of water ingress?",
             "Are there any reports of leaks in the building or between units?",
 			"Who was at fault for the reported leaks?",
             "Did the leak result in a Strata Insurance claim being made?",
@@ -117,19 +116,20 @@
         ]
     },
     "financial": {
-        "financial": [
+		"balance": [
+            "How much money does the strata have money in reserve?",
+            "Does the strata contribute to a yearly contingency fund?",
+			"How much does the strata contribute to the yearly contingency fund?"
+        ],
+        "budget": [
             "What is the total amount allocated for the strata budget?",
             "What is the annual budget allocated for general repairs and maintenance of the strata?",
             "What is the amount allocated for insurance coverage in the strata's budget?",
             "What is the estimated budget for utilities, such as electricity, water, and gas, for the strata property?",
-            "Does the strata have money in reserve to cover any unexpected expenses?",
-            "What is the amount of cash that is currently held in reserve by the strata?",
             "What is the budget for landscaping services of the strata?",
-            "Does the strata  contribute to a yearly contingency fund?",
             "What is the budget for window cleaning services for the strata?",
-            "Does strata have a budget allocated for pest control services?",
-            "Does strata have a budget allocated for dryer duct cleaning?",
-            "Are individual budget items distinct from one another, or are they grouped together as part of a larger item?"
+            "What is the budget allocated for pest control services?",
+            "What is the budget allocated for dryer duct cleaning?"
         ]
     },
     "depreciation": {
