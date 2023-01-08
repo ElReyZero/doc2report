@@ -16,7 +16,7 @@
   }
 </script>
 
-{% if report.status == "Processing" %}
+{% if report.status != "Report Generated"%}
 <h1>Processing Report</h1>
 <p>Your report is currently being processed, please wait for a couple of minutes and then refresh this page.</p>
 {% else %}
