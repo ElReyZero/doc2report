@@ -6,7 +6,6 @@
             "animal",
             "animals",
             "domestic",
-            "companion",
             "dog",
             "cat",
             "dogs",
@@ -28,7 +27,7 @@
             "airbnb",
 			"airbnb.com",
             "homeaway",
-			"B&B",
+			"b&b",
 			"bed and breakfast",
 			"vrbo",
             "vrbo.com"
@@ -44,27 +43,24 @@
             "grilling"
         ],
 		"Move in/out Fees": [
-			"Move in",
-			"Move out",
-			"Move in Fee",
-			"Move in Fees",
-			"Move out Fee",
-			"Move out Fees",
-			"Move in/out Fees"
+			"moving in",
+			"moving out",
+			"move in",
+			"move out",
+			"move in fee",
+			"move in fees",
+			"move out fee",
+			"move out fees",
+			"move in/out fees"
 		],
 		"Other": [
 			"quiet hours",
 			"quiet",
-			"Quiet period",
+			"quiet period",
 			"christmas",
 			"christmas tree",
 			"holiday decorations",
-			"AC",
-			"air conditioner",
-			"central air",
-			"air con",
-			"climate control",
-			"AC",
+			"ac",
 			"air conditioner",
 			"central air",
 			"air con",
@@ -195,9 +191,9 @@
     "financial": {
         "balance": [
 			"crf",
-			"Balance",
-			"Balance Sheet",
-			"Asset",
+			"balance",
+			"balance sheet",
+			"asset",
 			"liability",
 			"equity"
 			

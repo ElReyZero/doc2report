@@ -34,9 +34,18 @@ def get_blank_question(response):
     return False
 
 def check_all_response_keywords(prediction):
-    print(prediction)
+    pred_list = prediction.split("\n\n")
     keywords = ["answer:", "question:"]
-    return all([True if keyword in prediction.lower() else False for keyword in keywords])
+
+    delete = list()
+
+    for question in pred_list:
+        if not all([True if keyword in question.lower() else False for keyword in keywords]):
+            delete.append(question)
+
+    for item in delete:
+        pred_list.remove(item)
+    return "\n\n".join(pred_list)
 
 def get_blacklist():
     return ["table of contents", "definitions"]
@@ -60,8 +69,10 @@ def filter_response(prediction, response_dict, filter):
     prediction = pred_str
     if get_blank_question(prediction):
         return True
-    elif not check_all_response_keywords(prediction):
+    prediction = check_all_response_keywords(prediction)
+    if prediction == "":
         return True
+
     split_pred = prediction.split("\n")
 
     for i in range(len(split_pred)):
