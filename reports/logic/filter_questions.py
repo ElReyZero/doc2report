@@ -27,11 +27,15 @@ def get_regex_list(category, filter):
         return list()
 
 def get_blank_question(response):
-    exclude = ["", "Answer:", "Answer:\n", "Answer: \n"]
+    exclude = ["", "Answer:", "Answer:\n", "Answer: \n", "Answer: N/A", "Answer: None", "Answer: Unrelated"]
     for word in exclude:
-        if response == word:
+        if response.lower() == word.lower():
             return True
     return False
+
+def check_all_response_keywords(prediction):
+    keywords = ["answer:", "context:", "question:"]
+    return all([True if keyword in prediction.lower() else False for keyword in keywords])
 
 def get_blacklist():
     return ["table of contents", "definitions"]
@@ -55,7 +59,8 @@ def filter_response(prediction, response_dict, filter):
     prediction = pred_str
     if get_blank_question(prediction):
         return True
-
+    elif check_all_response_keywords(prediction):
+        return True
     split_pred = prediction.split("\n")
 
     for i in range(len(split_pred)):
