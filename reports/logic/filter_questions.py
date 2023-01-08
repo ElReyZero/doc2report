@@ -34,7 +34,7 @@ def get_blank_question(response):
     return False
 
 def check_all_response_keywords(prediction):
-    keywords = ["answer:", "context:", "question:"]
+    keywords = ["answer:", "question:"]
     return all([True if keyword in prediction.lower() else False for keyword in keywords])
 
 def get_blacklist():
