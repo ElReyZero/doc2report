@@ -98,7 +98,6 @@
 			"rotting"
 		],
         "legal/civil resolutions": [
-			"legal",
 			"legal dispute",
 			"legal suit",
 			"legal suits",
@@ -139,8 +138,7 @@
 		],
         "levy": [
 			"levy",
-			"special levy",
-			"assessment"
+			"special levy"
 		],
         "windows": [
 			"windows",
@@ -183,9 +181,7 @@
         "fire inspections": [
 			"fire inspections",
 			"fire inspection",
-			"fire",
-			"inspections",
-			"inspection"
+			"fire"
 		]
     },
     "financial": {
@@ -196,6 +192,7 @@
 			"asset",
 			"liability",
 			"equity"
+			
 		],
 		"budget": [
 			"budget",

@@ -10,7 +10,7 @@
         "smoking": [
             "What are the strata building's smoking regulations?",
             "Are there any restrictions regarding tobacco or marijuana smoking inside the suites and apartments, or on balconies? ",
-            "Where, if at all, is smoking permitted in the building?"
+            "Where if at all is smoking permitted in the building?"
         ],
         "rental": [
             "What is the maximum number of rental units permissible under the strata bylaws?",
@@ -88,7 +88,7 @@
             "Are there any additional fees or charges that the strata corporation will be imposing on its members in the near future?"
         ],
         "windows": [
-            "Are there issues with the windows?",
+            "Has there been any reported problems with the windows been reported in the strata?",
             "Is there any window replacement planned?"
         ],
         "noise complaints": [
@@ -101,7 +101,7 @@
             "Does the Engineer report have any comments?"
         ],
         "insurance claims": [
-            "Are there any insurance claims associated with the strata?",
+            "Has the strata made any insurance claims in the past year?",
 			"What was the insurance claim for?"
         ],
         "renovation requests": [
@@ -112,14 +112,14 @@
             "Have there been any reports of pests such as mice, rats, ants, or bed bugs in the building or individual units of the strata?"
         ],
         "fire inspections": [
-            "Do fire inspections occur on an annual basis, taking place once every year?"
+            "Is there an annual fire inspection?"
         ]
     },
     "financial": {
 		"balance": [
             "How much money does the strata have money in reserve?",
             "Does the strata contribute to a yearly contingency fund?",
-			"How much does the strata contribute to the yearly contingency fund?"
+			"How much does the strata contribute to the yearly contingency fund"
         ],
         "budget": [
             "What is the total amount allocated for the strata budget?",
