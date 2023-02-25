@@ -3,3 +3,4 @@ pymysql
 PyPDF2==2.11.1
 openai
 ocrmypdf
+backoff

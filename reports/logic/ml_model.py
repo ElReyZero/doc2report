@@ -2,6 +2,9 @@ from .filter_questions import get_questions_from_filter, get_regex_list, filter_
 from threading import Thread
 import openai
 import re
+import backoff
+
+@backoff.on_exception(backoff.expo, openai.error.RateLimitError)
 
 def get_question(text, questions):
     question_text = ""
@@ -14,6 +17,20 @@ def get_question(text, questions):
     \n
     {question_text}\n\n\n
     """
+
+
+def get_predictions(text_prompt, token_amount):
+    prediction = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=text_prompt,
+        temperature=0,
+        max_tokens=token_amount,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    return prediction
+
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
     if not custom_questions:
@@ -29,15 +46,9 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
         if (not filter_page_by_any(page, get_regex_list(category, filter)) and category not in ["depreciation"]) or filter_page_by_any(page, get_blacklist()):
             continue
         elif not price_calculation:
-            prediction = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=get_question(page, questions),
-                temperature=0,
-                max_tokens=1000,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0
-            )
+            text_prompt = get_question(page, questions)
+            token_amount = int(len(text_prompt) / 4) + 800
+            prediction = get_predictions(text_prompt, token_amount)
             prediction = prediction["choices"][0]["text"].lstrip("\n")
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
@@ -50,6 +61,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
         else:
             token_amount = len(get_question(page, questions)) / 4
             response_dict[filter.capitalize()] += token_amount
+
 
 def ennumerate_custom_questions(questions):
     question_str = ""
@@ -64,9 +76,11 @@ def predict_text(text, category, filters, price_calculation=False):
     thread_list = list()
     for filter in filters:
         if type(filter) == dict:
-            thread = Thread(target=prediction_thread, args=(text, category, f"Custom Questions:\n{ennumerate_custom_questions(list(filter.values()))}", response), kwargs={"custom_questions": list(filter.values()), "price_calculation": price_calculation})
+            thread = Thread(target=prediction_thread, args=(text, category, f"Custom Questions:\n{ennumerate_custom_questions(list(filter.values()))}", response), kwargs={
+                            "custom_questions": list(filter.values()), "price_calculation": price_calculation})
         else:
-            thread = Thread(target=prediction_thread, args=(text, category, filter, response), kwargs={"price_calculation": price_calculation})
+            thread = Thread(target=prediction_thread, args=(
+                text, category, filter, response), kwargs={"price_calculation": price_calculation})
         thread.start()
         thread_list.append(thread)
     for thread in thread_list:
