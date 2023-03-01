@@ -19,17 +19,14 @@ def get_question(text, questions):
     """
 
 
-def get_predictions(text_prompt, token_amount):
-    prediction = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=text_prompt,
-        temperature=0,
-        max_tokens=token_amount,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
+def get_predictions(text_prompt):
+    prediction = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages = [
+            {"role": "user", "content": text_prompt}
+        ]
     )
-    return prediction
+    return prediction["choices"][0]["message"]["content"]
 
 
 def prediction_thread(text, category, filter, response_dict, custom_questions=None, price_calculation=False):
@@ -47,8 +44,8 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             continue
         elif not price_calculation:
             text_prompt = get_question(page, questions)
-            token_amount = int(len(text_prompt) / 4) + 800
-            prediction = get_predictions(text_prompt, token_amount)
+            #token_amount = int(len(text_prompt) / 4) + 800
+            prediction = get_predictions(text_prompt)
             prediction = prediction["choices"][0]["text"].lstrip("\n")
             filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
