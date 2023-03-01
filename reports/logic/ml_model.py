@@ -13,7 +13,7 @@ def get_question(text, questions):
 
     return f"""
     "{text}"\n\n
-    Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state "Unrelated" in both the question, answer and context fields.
+    Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state using only the word "Unrelated" in both the question, answer and context fields.
     \n
     {question_text}\n\n\n
     """
