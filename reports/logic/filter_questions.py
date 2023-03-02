@@ -50,6 +50,7 @@ def check_all_response_keywords(prediction):
             delete.append(question)
         elif any([True if re.search(rf"{blacklisted}".lower(), question.lower()) else False for blacklisted in get_blacklist()]):
             delete.append(question)
+        print(question)
 
     for item in delete:
         pred_list.remove(item)
