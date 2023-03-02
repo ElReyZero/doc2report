@@ -48,6 +48,8 @@ def check_all_response_keywords(prediction):
     for question in pred_list:
         if not all([True if keyword in question.lower() else False for keyword in keywords]):
             delete.append(question)
+        elif any([True if re.search(rf"{blacklisted}".lower(), question.lower()) else False for blacklisted in get_blacklist()]):
+            delete.append(question)
 
     for item in delete:
         pred_list.remove(item)
@@ -74,8 +76,6 @@ def filter_response(prediction, response_dict, filter):
         return True
     prediction = check_all_response_keywords(prediction)
     if prediction == "":
-        return True
-    if any([True if blacklisted in prediction.lower() else False for blacklisted in get_blacklist()]):
         return True
 
     split_pred = prediction.split("\n")
