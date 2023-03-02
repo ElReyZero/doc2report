@@ -8,6 +8,12 @@ with open(os.getcwd() + "/filter_questions.json") as f:
 with open(os.getcwd() + "/regex.json") as f:
     regex_dict = json.load(f)
 
+with open(os.getcwd() + "/blacklist.json") as f:
+    blacklist = json.load(f)
+
+def get_blacklist():
+    return blacklist
+
 def get_question_dict():
     return question_dict
 
@@ -47,9 +53,6 @@ def check_all_response_keywords(prediction):
         pred_list.remove(item)
     return "\n\n".join(pred_list)
 
-def get_blacklist():
-    return ["table of contents", "definitions"]
-
 def filter_page_by_any(page, list):
     return any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in list)
 
@@ -71,6 +74,8 @@ def filter_response(prediction, response_dict, filter):
         return True
     prediction = check_all_response_keywords(prediction)
     if prediction == "":
+        return True
+    if any([True if blacklisted in prediction.lower() else False for blacklisted in get_blacklist()]):
         return True
 
     split_pred = prediction.split("\n")

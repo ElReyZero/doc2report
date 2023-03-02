@@ -1,0 +1,26 @@
+{
+    "blacklist":[
+        "table of contents",
+        "definitions",
+        "The context does not provide information about *",
+        "The given context does not provide information *",
+        "The given excerpt does not mention any *",
+        "There is no information provided regarding ^",
+        "There is no information provided in the given context ^",
+        "There is no information available *",
+        "Not mentioned.",
+        "There is no specific information provided *",
+        "It is not mentioned in the given context.",
+        "Unknown",
+        "N/A",
+        "Unspecified.",
+        "The * does not provide information",
+        "It is unclear from the provided context *",
+        "Unknown/Not mentioned in the context.",
+        "The context does not mention *",
+        "The budget allocated for * is not provided in the given context.",
+        "It is not stated in the provided context *",
+        "No answer provided.",
+        "The given context provides information *"
+    ]
+}
