@@ -20,6 +20,27 @@
         "The budget allocated for .* is not provided in the given context.",
         "It is not stated in the provided context .*",
         "No answer provided.",
-        "The given context provides information .*"
+        "The given context provides information .*",
+        "Unavailable",
+		".* is not provided in the given context.",
+		".* not provided in the given context.",
+		"Not provided",
+		"No information provided.",
+		"There is no information provided in the given text .*",
+		"It is not specified in the given context.",
+		"The given text does not mention .*",
+		"The context does not provide information .*",
+		"The context does not provide specific information .*",
+		".* in the given context.",
+		"There is no information provided in the given context .*",
+		"There is no information provided .*",
+		"The context does not provide a clear answer to this question.",
+		"The given text does not provide information .*",
+		"Unclear.",
+		"The context does not provide an answer .*",
+		"The text does not provide information . *",
+		"There is no information in the given context .*",
+		"Context does not provide information .*",
+		"It is unclear."
     ]
 }
