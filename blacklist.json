@@ -2,6 +2,7 @@
     "blacklist":[
         "table of contents",
         "definitions",
+        "It is not specified in the given context.",
         "The context does not provide information about .*",
         "The given context does not provide information .*",
         "The given excerpt does not mention any .*",
