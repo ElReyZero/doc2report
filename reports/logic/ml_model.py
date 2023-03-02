@@ -1,4 +1,4 @@
-from .filter_questions import get_questions_from_filter, get_regex_list, filter_response, get_blacklist, filter_page_by_any
+from .filter_questions import get_questions_from_filter, get_regex_list, filter_response, get_page_filter_blacklist, filter_page_by_any
 from threading import Thread
 import openai
 import re
@@ -40,7 +40,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
     for page_no in range(len(text)):
         page = re.sub(r'[^\w\s]+$', '', text[page_no]) + "."
         # Skip if the page doesn't contain any of the keywords
-        if (not filter_page_by_any(page, get_regex_list(category, filter)) and category not in ["depreciation"]) or filter_page_by_any(page, get_blacklist()):
+        if (not filter_page_by_any(page, get_regex_list(category, filter)) and category not in ["depreciation"]) or filter_page_by_any(page, get_page_filter_blacklist()):
             continue
         elif not price_calculation:
             text_prompt = get_question(page, questions)

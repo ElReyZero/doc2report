@@ -11,8 +11,11 @@ with open(os.getcwd() + "/regex.json") as f:
 with open(os.getcwd() + "/blacklist.json") as f:
     blacklist = json.load(f)
 
-def get_blacklist():
+def get_response_blacklist():
     return blacklist
+
+def get_page_filter_blacklist():
+    return ["table of contents","definitions"]
 
 def get_question_dict():
     return question_dict
@@ -48,7 +51,7 @@ def check_all_response_keywords(prediction):
     for question in pred_list:
         if not all([True if keyword in question.lower() else False for keyword in keywords]):
             delete.append(question)
-        elif any([True if re.search(rf"{blacklisted}".lower(), question.lower()) else False for blacklisted in get_blacklist()]):
+        elif any([True if re.search(rf"{blacklisted}".lower(), question.lower()) else False for blacklisted in get_response_blacklist()]):
             delete.append(question)
 
 
