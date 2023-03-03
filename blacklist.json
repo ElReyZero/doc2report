@@ -41,6 +41,25 @@
 		"The text does not provide information . *",
 		"There is no information in the given context .*",
 		"Context does not provide information .*",
-		"It is unclear."
+		"It is unclear.",
+        "Information not provided in the given context.",
+		"There is no current information provided on .*",
+		"The given text does not provide clear information .*",
+		"The context provided does not .*",
+		".* in the given text.",
+		"The given text does not provide this information.",
+		"This information is not provided in the given text.",
+		"It is not specified in the given text.",
+		"The context does not provide an answer to this question.",
+		"Unknown/Unanswered.",
+		"This information is not provided in the given context.",
+		"Unknown/Not stated in given context",
+		"There is no information provided in the context .*",
+		"Information not provided.",
+		"Context suggests that the information is not available.",
+		"The provided text does not give .*",
+		"Not specified.",
+		"No answer provided in the given context.",
+		"The text does not provide a clear .*"
     ]
 }
