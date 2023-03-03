@@ -60,6 +60,7 @@
 		"The provided text does not give .*",
 		"Not specified.",
 		"No answer provided in the given context.",
-		"The text does not provide a clear .*"
+		"The text does not provide a clear .*",
+        ".* not specified in the given text."
     ]
 }
