@@ -61,6 +61,15 @@
 		"Not specified.",
 		"No answer provided in the given context.",
 		"The text does not provide a clear .*",
-        ".* not specified in the given text."
+        ".* not specified in the given text.",
+        "It is not stated in the given context",
+		".* is not stated in the given context.",
+		"The report does not provide information .*",
+		"Information is not given in the context.",
+		"It is not mentioned in the context.",
+		"It is not provided in the given text.",
+		"It is not stated in the given text .*",
+		"It is not specified in the given text .*",
+		"Unknown/Not provided."
     ]
 }
