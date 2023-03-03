@@ -66,6 +66,19 @@
 		"It is not provided in the given text.",
 		"It is not stated in the given text .*",
 		"It is not specified in the given text .*",
-		"Unknown/Not provided"
+		"Unknown/Not provided",
+        "No answer is provided in the given text",
+		"Not provided in the given context",
+		"The provided text does not mention .*",
+		"Unknown/Not stated",
+		"The context does not provide any specific information .*",
+		"There is no mention in the given text .*",
+		"The text does not provide .*",
+		"The context does not provide .*",
+		"There is no clear answer provided in the given text",
+		"Cannot be determined from given context",
+		"Information not given",
+		"The given context does not provide .*",
+		"The text does not mention .*"
     ]
 }
