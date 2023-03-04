@@ -48,7 +48,7 @@ def get_blank_question(response):
             return True
     return False
 
-def check_all_response_keywords(prediction):
+def check_blacklist(prediction):
     pred_list = prediction.split("# ")
     delete = list()
 
@@ -72,7 +72,7 @@ def filter_response(prediction, response_dict, filter):
     if get_blank_question(prediction):
         return True
 
-    #prediction = check_all_response_keywords(prediction)
+    prediction = check_blacklist(prediction)
 
     if prediction == "":
         return True
