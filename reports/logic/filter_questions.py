@@ -53,16 +53,20 @@ def check_all_response_keywords(prediction):
     keywords = ["answer", "context"]
 
     delete = list()
+    deleted_indices = list()
 
-    for question in pred_list:
-        if not all([True if keyword in question.lower() else False for keyword in keywords]):
-            delete.append(question)
-        elif any([True if blacklisted.lower() in question.lower() else False for blacklisted in get_response_blacklist()]):
-            delete.append(question)
+    for i in range(len(pred_list)):
+        if not all([True if keyword in pred_list[i].lower() else False for keyword in keywords]):
+            delete.append(pred_list[i])
+            deleted_indices.append(i+1)
+        elif any([True if blacklisted.lower() in pred_list[i].lower() else False for blacklisted in get_response_blacklist()]):
+            delete.append(pred_list[i])
+            deleted_indices.append(i+1)
 
     for item in delete:
         pred_list.remove(item)
-    return "# ".join(pred_list)
+
+    return "# ".join(pred_list), deleted_indices
 
 def filter_page_by_any(page, list):
     return any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in list)
@@ -76,7 +80,8 @@ def filter_response(prediction, response_dict, filter):
     if get_blank_question(prediction):
         return True
 
-    prediction = check_all_response_keywords(prediction)
+    prediction, deleted_indices = check_all_response_keywords(prediction)
+
     if prediction == "":
         return True
 
@@ -93,4 +98,4 @@ def filter_response(prediction, response_dict, filter):
         return True
 
     prediction = "# ".join(copy).strip()
-    return prediction
+    return prediction, deleted_indices
