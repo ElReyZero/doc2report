@@ -64,8 +64,10 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 prediction = filtered
             sections = prediction.split("# ")[1:]
 
+            j = 0
             for index in indices:
-                sections[index] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[index]
+                sections[index] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[j]
+                j += 1
 
             prediction = "\n".join(sections)
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
