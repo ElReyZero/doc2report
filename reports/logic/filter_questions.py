@@ -62,7 +62,7 @@ def check_all_response_keywords(prediction):
 
     for item in delete:
         pred_list.remove(item)
-    return "\n".join(pred_list)
+    return "# ".join(pred_list)
 
 def filter_page_by_any(page, list):
     return any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in list)
@@ -79,7 +79,7 @@ def filter_response(prediction, response_dict, filter):
     if prediction == "":
         return True
 
-    split_pred = prediction.split("\n")
+    split_pred = prediction.split("# ")
 
     for i in range(len(split_pred)):
         split_pred[i] = split_pred[i].split(":")
