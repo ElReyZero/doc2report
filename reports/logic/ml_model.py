@@ -66,7 +66,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
 
             j = 0
             for index in indices:
-                sections[index] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[j]
+                sections[j] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[j]
                 j += 1
 
             prediction = "\n".join(sections)
