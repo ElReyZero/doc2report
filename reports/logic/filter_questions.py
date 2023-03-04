@@ -18,7 +18,7 @@ def get_system_prompt(doc_category):
     return system_prompts[doc_category][0], system_prompts[doc_category][1], system_prompts[doc_category][2]
 
 def get_response_blacklist():
-    return blacklist
+    return blacklist["blacklist"]
 
 def get_page_filter_blacklist():
     return ["table of contents","definitions"]
