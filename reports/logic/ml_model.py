@@ -30,7 +30,7 @@ def get_predictions(text_prompt):
 
     prediction = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        #temperature=0,
+        temperature=0,
         messages = [
             {"role": "system", "content": "You are a question and answering service named GPT."},
             {"role": "user", "content": text_prompt}
@@ -66,7 +66,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
 
             for i in range(len(sections)):
                 question_no = int(re.search(r'\d+:', sections[i]).group()[:-1])
-                sections[i] = f"\nQuestion {question_no+1}: "+ questions[question_no-1]  + "\n"+ sections[i]
+                sections[i] = f"\nQuestion {question_no}: "+ questions[question_no-1]  + "\n"+ sections[i]
 
             prediction = "\n".join(sections)
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
