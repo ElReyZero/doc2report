@@ -1,8 +1,8 @@
 {
   "bylaws": [
     "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key rules and regulations that govern the behavior and responsibilities of owners and occupants within the strata community.",
-    "Below, you will reference the Bylaw, and answer the following questions based on the provided Bylaws. Write the exact copy of the context located in the bylaw where you found the answer in the 'Context' field including sections and sub sections.",
-    "If the answer is found in the documentation, GPT will provide the exact context of the bylaw in this field. Otherwise, GPT will output \"Unrelated.\""
+    "Below, you will reference the Bylaw, and answer the following questions based on the provided Bylaws. Write the exact copy of the context located in the bylaw where you found the answer in the 'Context'.",
+    "If the answer is found in the documentation, GPT will provide the exact context of the bylaw in this field including sections and sub sections. Otherwise, GPT will output \"Unrelated.\""
   ],
   "minute": [
     "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key provisions and regulations governing the ownership, maintenance, and management of the property. Evaluate how these provisions align with the needs and expectations of the strata community, and identify any potential areas of conflict or ambiguity.",
