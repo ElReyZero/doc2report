@@ -50,14 +50,10 @@ def get_blank_question(response):
 
 def check_all_response_keywords(prediction):
     pred_list = prediction.split("# ")
-    keywords = ["answer", "context"]
-
     delete = list()
 
     for i in range(len(pred_list)):
-        if not all([True if keyword in pred_list[i].lower() else False for keyword in keywords]):
-            delete.append(pred_list[i])
-        elif any([True if blacklisted.lower() in pred_list[i].lower() else False for blacklisted in get_response_blacklist()]):
+        if any([True if blacklisted.lower() in pred_list[i].lower() else False for blacklisted in get_response_blacklist()]):
             delete.append(pred_list[i])
     for item in delete:
         pred_list.remove(item)
@@ -76,7 +72,7 @@ def filter_response(prediction, response_dict, filter):
     if get_blank_question(prediction):
         return True
 
-    prediction = check_all_response_keywords(prediction)
+    #prediction = check_all_response_keywords(prediction)
 
     if prediction == "":
         return True
