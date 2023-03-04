@@ -25,7 +25,7 @@ def get_question(text, questions, category):
     \n
     Context X: [{category_prompt3}]
     \n
-    """
+    """.lstrip()
 
 def get_predictions(text_prompt):
 
@@ -55,7 +55,8 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             continue
         elif not price_calculation:
             text_prompt = get_question(page, questions, category)
-            print(text_prompt.encode('utf-8'))
+            from pprint import pprint
+            pprint(text_prompt.encode('utf-8'))
             #token_amount = int(len(text_prompt) / 4) + 800
             prediction = get_predictions(text_prompt)
             prediction = prediction["choices"][0]["message"]["content"].lstrip("\n")
