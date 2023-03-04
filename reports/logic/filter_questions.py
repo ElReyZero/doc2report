@@ -75,21 +75,12 @@ def filter_response(prediction, response_dict, filter):
 
     if get_blank_question(prediction):
         return True
+
     prediction = check_all_response_keywords(prediction)
     if prediction == "":
         return True
 
     split_pred = prediction.split("# ")
-
-    for i in range(len(split_pred)):
-        split_pred[i] = split_pred[i].split(":")
-        if split_pred[i][0] == "":
-            continue
-        elif "question" in split_pred[i][0].lower():
-            split_pred[i][0] = "\n<b>" + split_pred[i][0] + ":</b>"
-        else:
-            split_pred[i][0] = "<b>" + split_pred[i][0] + ":</b>"
-        split_pred[i] = "".join(split_pred[i])
 
     copy = split_pred.copy()
 
@@ -97,21 +88,9 @@ def filter_response(prediction, response_dict, filter):
         if type(split_pred[i]) == list:
             copy.remove(split_pred[i])
             continue
-    split_pred = copy
 
     if len(split_pred) == 1:
         return True
-    elif "question" in split_pred[-1].lower():
-        copy.remove(split_pred[-1])
-        split_pred = copy
 
-    copy = split_pred.copy()
-
-    for i in range(len(split_pred)):
-        try:
-            if "question" in split_pred[i].lower() and "question" in split_pred[i+1].lower():
-                copy.remove(split_pred[i])
-        except (IndexError, AttributeError):
-            pass
-    prediction = "\n".join(copy).strip()
+    prediction = "# ".join(copy).strip()
     return prediction

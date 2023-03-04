@@ -17,7 +17,7 @@ def get_question(text, questions, category):
     {category_prompt1}\n
     Your responses should always be in a consistent format and follow a specific structure. It is important to note that you should only provide answers that can be found within the given context and never use a seperate source of data. Keep your answers to each question below 100 characters.\n\n
     {category_prompt2}\n
-    {category.capitalize()}: "{text}"\n\n
+    {category.capitalize()} Document: "{text}"\n\n
     {question_text}\n\n
     Answer all of the questions in the following format, where X is the question number, include the # separator:
     \n
@@ -55,6 +55,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             continue
         elif not price_calculation:
             text_prompt = get_question(page, questions, category)
+            print(text_prompt)
             #token_amount = int(len(text_prompt) / 4) + 800
             prediction = get_predictions(text_prompt)
             prediction = prediction["choices"][0]["message"]["content"].lstrip("\n")
@@ -63,6 +64,10 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 continue
             else:
                 prediction = filtered
+            sections = prediction.split("# ")[1:]
+            for i in range(len(sections)):
+                sections[i] = "Question "+ questions[i] + f" {i+1}: " +sections[i]
+            prediction = "\n".join(sections)
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
             if category == "custom_question" and response_dict[filter.capitalize()] == dict():
                 response_dict[filter.capitalize()] = {"N/A": "No answer found"}
