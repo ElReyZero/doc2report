@@ -30,7 +30,6 @@ def get_predictions(text_prompt):
 
     prediction = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        temperature=0,
         messages = [
             {"role": "system", "content": "You are a question and answering service named GPT."},
             {"role": "user", "content": text_prompt}
