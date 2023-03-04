@@ -14,7 +14,7 @@ def get_question(text, questions, category):
     category_prompt1, category_prompt2, category_prompt3 = get_system_prompt(category)
 
     return f"""
-    {category_prompt1} Your responses should always be in a consistent format and follow a specific structure. It is important to note that you should only provide answers that can be found within the given context and never use a seperate source of data. Keep your answers to each question below 100 characters.\n\n
+    {category_prompt1} Your responses should always be in a consistent format and follow a specific structure. It is important to note that you should only provide answers that can be found within the given context and never use a seperate source of data.\n\n
     {category_prompt2} Your responses should be clear, concise, and specific to the context given.\n\n
     {category.capitalize()} Document: "{text}"\n\n
     {question_text}\n\n
@@ -28,6 +28,7 @@ def get_question(text, questions, category):
 def get_predictions(text_prompt):
     prediction = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
+        temperature=0,
         messages = [
             {"role": "system", "content": "You are a question and answering service named GPT."},
             {"role": "user", "content": text_prompt}
