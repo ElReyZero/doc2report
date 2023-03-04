@@ -2,14 +2,20 @@ import json
 import os
 import re
 
-with open(os.getcwd() + "/filter_questions.json") as f:
+with open(os.getcwd() + "/json/filter_questions.json") as f:
     question_dict = json.load(f)
 
-with open(os.getcwd() + "/regex.json") as f:
+with open(os.getcwd() + "/json/regex.json") as f:
     regex_dict = json.load(f)
 
-with open(os.getcwd() + "/blacklist.json") as f:
+with open(os.getcwd() + "/json/blacklist.json") as f:
     blacklist = json.load(f)
+
+with open(os.getcwd() + "/json/system_prompts.json") as f:
+    system_prompts = json.load(f)
+
+def get_system_prompt(doc_category):
+    return system_prompts[doc_category][0], system_prompts[doc_category][1], system_prompts[doc_category][2]
 
 def get_response_blacklist():
     return blacklist
@@ -43,39 +49,30 @@ def get_blank_question(response):
     return False
 
 def check_all_response_keywords(prediction):
-    pred_list = prediction.split("\n\n")
-    keywords = ["answer:", "question:"]
+    pred_list = prediction.split("# ")
+    keywords = ["answer", "context"]
 
     delete = list()
 
     for question in pred_list:
         if not all([True if keyword in question.lower() else False for keyword in keywords]):
             delete.append(question)
-        elif any([True if re.search(rf"{blacklisted}".lower(), question.lower()) else False for blacklisted in get_response_blacklist()]):
+        elif any([True if blacklisted.lower() in question.lower() else False for blacklisted in get_response_blacklist()]):
             delete.append(question)
-
 
     for item in delete:
         pred_list.remove(item)
-    return "\n\n".join(pred_list)
+    return "\n".join(pred_list)
 
 def filter_page_by_any(page, list):
     return any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in list)
 
 def filter_response(prediction, response_dict, filter):
     # Skip if the prediction is unrelated or if the prediction is already in the response dict
-    if prediction == "Unrelated" or prediction == "Unrelated.":
+
+    if prediction in response_dict[filter.capitalize()].values():
         return True
-    elif prediction in response_dict[filter.capitalize()].values():
-        return True
-    elif all([True if "Unrelated" in x or x == "" or x == "None" else False for x in prediction.split("\n")]) :
-        return True
-    prediction = prediction.replace("|", " ").split("\n")
-    pred_str = ""
-    for question in prediction:
-        if not "unrelated" in question.lower():
-            pred_str += question + "\n"
-    prediction = pred_str
+
     if get_blank_question(prediction):
         return True
     prediction = check_all_response_keywords(prediction)

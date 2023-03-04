@@ -1,4 +1,4 @@
-from .filter_questions import get_questions_from_filter, get_regex_list, filter_response, get_page_filter_blacklist, filter_page_by_any
+from .filter_questions import get_questions_from_filter, get_regex_list, filter_response, get_page_filter_blacklist, filter_page_by_any, get_system_prompt
 from threading import Thread
 import openai
 import re
@@ -6,23 +6,34 @@ import backoff
 
 @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
 
-def get_question(text, questions):
+def get_question(text, questions, category):
     question_text = ""
     for i in range(len(questions)):
-        question_text += f"\n{questions[i]}"
+        question_text += f"\nQuestion {i+1}: {questions[i]}"
+
+    category_prompt1, category_prompt2, category_prompt3 = get_system_prompt(category)
 
     return f"""
-    Text: "{text}"\n\n
-    Provide answers to the following questions in Question, Answer, Context format. If a question is unrelated to the given context, please state using only the word "Unrelated" in both the question, answer and context fields.
+    {category_prompt1}\n
+    Your responses should always be in a consistent format and follow a specific structure. It is important to note that you should only provide answers that can be found within the given context and never use a seperate source of data. Keep your answers to each question below 100 characters.\n\n
+    {category_prompt2}\n
+    {category.capitalize()}: "{text}"\n\n
+    {question_text}\n\n
+    Answer all of the questions in the following format, where X is the question number, include the # separator:
     \n
-    {question_text}\n\n\n
+    # Answer X: [GPT will generate the answer here]
+    \n
+    Context X: [{category_prompt3}]
+    \n
     """
 
-
 def get_predictions(text_prompt):
+
     prediction = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
+        temperature=0,
         messages = [
+            {"role": "system", "content": "You are a question and answering service named GPT."},
             {"role": "user", "content": text_prompt}
         ]
     )
@@ -43,7 +54,7 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
         if (not filter_page_by_any(page, get_regex_list(category, filter)) and category not in ["depreciation"]) or filter_page_by_any(page, get_page_filter_blacklist()):
             continue
         elif not price_calculation:
-            text_prompt = get_question(page, questions)
+            text_prompt = get_question(page, questions, category)
             #token_amount = int(len(text_prompt) / 4) + 800
             prediction = get_predictions(text_prompt)
             prediction = prediction["choices"][0]["message"]["content"].lstrip("\n")

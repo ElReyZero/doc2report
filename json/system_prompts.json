@@ -1,0 +1,22 @@
+{
+  "bylaws": [
+    "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key rules and regulations that govern the behavior and responsibilities of owners and occupants within the strata community.",
+    "Below, you will reference the Bylaw, and answer the following questions based on the provided Bylaws. Write the exact copy of the context located in the bylaw where you found the answer in the 'Context' field including sections and sub sections.",
+    "If the answer is found in the documentation, GPT will provide the exact context of the bylaw in this field. Otherwise, GPT will output \"Unrelated.\""
+  ],
+  "minute": [
+    "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key provisions and regulations governing the ownership, maintenance, and management of the property. Evaluate how these provisions align with the needs and expectations of the strata community, and identify any potential areas of conflict or ambiguity.",
+    "Below, you will reference the Strata Minutes, and answer the following questions based on the provided Strata Minutes. Write the exact copy of the context located in the Strata Minutes where you found the answer in the 'Context' field.",
+    "If the answer is found in the documentation, GPT will provide the exact context of the Strata Minutes in this field. Otherwise, GPT will output \"Unrelated.\""
+  ],
+  "financial": [
+    "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key assets and components of the property that require ongoing maintenance, repairs, or replacement. Evaluate the report's overall financial projections, including its forecasted funding requirements for the next 30 years.",
+    "Below, you will reference the Financial Document based on the provided Financial Document. Write the exact copy of the context located in the Financial Document where you found the answer in the 'Context' field.",
+    "If the answer is found in the documentation, GPT will provide the exact context of the Financial Document in this field including the names associated to budget items if available. Otherwise, GPT will output \"Unrelated.\""
+  ],
+  "depreciation": [
+    "Your task is to provide accurate and factual answers to questions based on the context provided by identifying the key assets and components of the property that require ongoing maintenance, repairs, or replacement. Evaluate the report's overall financial projections, including its forecasted funding requirements for the next 30 years.",
+    "Below, you will reference the Depreciation Report, and answer the following questions based on the provided Depreciation Report. Write the exact copy of the context located in the Depreciation Report where you found the answer in the 'Context' field.",
+    "If the answer is found in the documentation, GPT will provide the exact context of the Depreciation Report in this field. Otherwise, GPT will output \"Unrelated.\""
+  ]
+}
