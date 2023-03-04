@@ -64,6 +64,9 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 prediction = filtered
             sections = prediction.split("# ")[1:]
 
+            print(sections)
+            print(indices)
+            exit()
             j = 0
             for index in indices:
                 sections[j] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[j]
