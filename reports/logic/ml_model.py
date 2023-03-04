@@ -57,20 +57,16 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
             #token_amount = int(len(text_prompt) / 4) + 800
             prediction = get_predictions(text_prompt)
             prediction = prediction["choices"][0]["message"]["content"].lstrip("\n")
-            filtered, indices = filter_response(prediction, response_dict, filter)
+            filtered = filter_response(prediction, response_dict, filter)
             if filtered is True:
                 continue
             else:
                 prediction = filtered
             sections = prediction.split("# ")[1:]
 
-            print(sections)
-            print(indices)
-            exit()
-            j = 0
-            for index in indices:
-                sections[j] = f"\nQuestion {index+1}: "+ questions[index]  + "\n"+ sections[j]
-                j += 1
+            for i in range(len(sections)):
+                question_no = int(re.search(r'\d+:', sections[i]).group()[:-1])
+                sections[i] = f"\nQuestion {question_no+1}: "+ questions[question_no-1]  + "\n"+ sections[i]
 
             prediction = "\n".join(sections)
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction

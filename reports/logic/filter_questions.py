@@ -53,20 +53,16 @@ def check_all_response_keywords(prediction):
     keywords = ["answer", "context"]
 
     delete = list()
-    indices = list()
 
     for i in range(len(pred_list)):
         if not all([True if keyword in pred_list[i].lower() else False for keyword in keywords]):
             delete.append(pred_list[i])
         elif any([True if blacklisted.lower() in pred_list[i].lower() else False for blacklisted in get_response_blacklist()]):
             delete.append(pred_list[i])
-        else:
-            indices.append(i)
-
     for item in delete:
         pred_list.remove(item)
 
-    return "# ".join(pred_list), indices
+    return "# ".join(pred_list)
 
 def filter_page_by_any(page, list):
     return any(re.search(r"\b" + re.escape(x) + r"\b", page.lower()) for x in list)
@@ -80,7 +76,7 @@ def filter_response(prediction, response_dict, filter):
     if get_blank_question(prediction):
         return True, list()
 
-    prediction, indices = check_all_response_keywords(prediction)
+    prediction = check_all_response_keywords(prediction)
 
     if prediction == "":
         return True, list()
@@ -98,4 +94,4 @@ def filter_response(prediction, response_dict, filter):
         return True, list()
 
     prediction = "# ".join(copy).strip()
-    return prediction, indices
+    return prediction
