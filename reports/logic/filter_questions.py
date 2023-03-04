@@ -75,15 +75,15 @@ def filter_response(prediction, response_dict, filter):
     # Skip if the prediction is unrelated or if the prediction is already in the response dict
 
     if prediction in response_dict[filter.capitalize()].values():
-        return True
+        return True, list()
 
     if get_blank_question(prediction):
-        return True
+        return True, list()
 
     prediction, deleted_indices = check_all_response_keywords(prediction)
 
     if prediction == "":
-        return True
+        return True, list()
 
     split_pred = prediction.split("# ")
 
@@ -95,7 +95,7 @@ def filter_response(prediction, response_dict, filter):
             continue
 
     if len(split_pred) == 1:
-        return True
+        return True, list()
 
     prediction = "# ".join(copy).strip()
     return prediction, deleted_indices
