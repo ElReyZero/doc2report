@@ -61,11 +61,14 @@ def prediction_thread(text, category, filter, response_dict, custom_questions=No
                 continue
             else:
                 prediction = filtered
-            sections = prediction.split("# ")[1:]
+            sections = prediction.split("# ")
 
             for i in range(len(sections)):
-                question_no = int(re.search(r'\d+:', sections[i]).group()[:-1])
-                sections[i] = f"\nQuestion {question_no}: "+ questions[question_no-1]  + "\n"+ sections[i]
+                try:
+                    question_no = int(re.search(r'\d+:', sections[i]).group()[:-1])
+                    sections[i] = f"\nQuestion {question_no}: "+ questions[question_no-1]  + "\n"+ sections[i]
+                except:
+                    continue
 
             prediction = "\n".join(sections)
             response_dict[filter.capitalize()][f"Page {page_no + 1}"] = prediction
